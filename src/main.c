@@ -357,7 +357,7 @@ JSONValue *parse_object(const char **json)
             value->type = JSON_NULL;
             break;
         }
-ééé
+
         // Expand the object's properties array
         object->properties =
             realloc(object->properties, (object->size + 1) * sizeof(JSONValue));
