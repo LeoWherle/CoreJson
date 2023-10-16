@@ -1,6 +1,8 @@
 
 # output binary
-BIN := json
+BIN := corejson
+LIBBIN := libcorejson.a
+LIBSHAREDBIN := libcorejson.so
 TEST_BIN := unit_tests
 
 # source files
@@ -81,7 +83,7 @@ ifdef release
 endif
 
 # compile C source files
-COMPILE.c = $(CC) $(DEPFLAGS) $(CFLAGS) $(CPPFLAGS) -c -o $@
+COMPILE.c = $(CC) $(DEPFLAGS) $(CFLAGS) $(CPPFLAGS) -fPIC -c -o $@
 # compile C++ source files
 COMPILE.cc = $(CXX) $(DEPFLAGS) $(CXXFLAGS) $(CPPFLAGS) -c -o $@
 # link object files to binary
@@ -91,9 +93,19 @@ PRECOMPILE =
 # postcompile step
 POSTCOMPILE = mv -f $(DEPDIR)/$*.Td $(DEPDIR)/$*.d
 
+.PHONY: all
 all: gen_version
 all: $(BIN)
 
+.PHONY: lib
+lib: gen_version
+lib: $(LIBBIN)
+
+.PHONY: lib-shared
+lib-shared: gen_version
+lib-shared: $(LIBSHAREDBIN)
+
+.PHONY: dist
 dist: $(DISTFILES)
 	$(TAR) -cvzf $(DISTOUTPUT) $^
 
@@ -128,6 +140,12 @@ tests_run:
 
 $(BIN): $(OBJS)
 	$(LINK.o) $^
+
+$(LIBBIN): $(OBJS)
+	ar rcs $(LIBBIN) $^
+
+$(LIBSHAREDBIN): $(OBJS)
+	$(LINK.o) -shared $^
 
 .PHONY: gen_version
 gen_version:
