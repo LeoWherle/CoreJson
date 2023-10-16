@@ -9,6 +9,11 @@
 static JSONValue *parse_object(const char **json);
 static JSONValue *parse_array(const char **json);
 
+JSONValue *json_parse(const char *json)
+{
+    return parse_value(&json);
+}
+
 JSONValue *parse_value(const char **json)
 {
     token_t token = {0};
@@ -76,8 +81,9 @@ static JSONValue *parse_object(const char **json)
 
     while (true) {
         next_token(json, &token);
-        if (token.type == TOKEN_RIGHT_BRACE)
+        if (token.type == TOKEN_RIGHT_BRACE) {
             break;
+        }
 
         if (token.type != TOKEN_STRING) {
             value->type = JSON_NULL;
@@ -131,11 +137,7 @@ static JSONValue *parse_object(const char **json)
     if (value->type != JSON_NULL) {
         value->object_value = object;
     } else {
-        for (size_t i = 0; i < object->size; i++) {
-            free(object->keys[i]);
-        }
-        free(object->keys);
-        free(object->values);
+        json_object_free(object);
     }
     return value;
 }
@@ -191,12 +193,7 @@ static JSONValue *parse_array(const char **json)
     if (value->type != JSON_NULL) {
         value->array_value = array;
     } else {
-        for (size_t i = 0; i < array->size; i++) {
-            if (array->elements[i].type == JSON_STRING) {
-                free(array->elements[i].string_value);
-            }
-        }
-        free(array->elements);
+        json_array_free(array);
     }
     return value;
 }

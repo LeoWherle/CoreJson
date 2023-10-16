@@ -6,25 +6,6 @@
 #include <string.h>
 #include "corejson_lexer.h"
 
-const char *token_tTypeString[] = {
-    "String",
-    "Number",
-    "Boolean-true",
-    "Boolean-false",
-    "Null",
-    "Brace-L",
-    "Brace-R",
-    "Bracket-L",
-    "Bracket-R",
-    "Colon",
-    "Comma",
-    "Error",
-    "End",
-};
-
-#define IS_WHITESPACE(c) (c == ' ' || c == '\t' || c == '\n' || c == '\r')
-#define IS_NUMBER(c)     (isdigit(c) || c == '.' || c == '+' || c == '-')
-
 static void skip_whitespace(const char **json)
 {
     while (IS_WHITESPACE(**json)) {
@@ -32,25 +13,34 @@ static void skip_whitespace(const char **json)
     }
 }
 
+static token_t *_parse_string_data(
+    const char **json, token_t *token, const char *start_pos)
+{
+    size_t str_len = 0;
+
+    str_len = (size_t) ((*json) - start_pos);
+    if (str_len > VALUE_MAX_LEN) {
+        token->type = TOKEN_ERROR;
+        return token;
+    }
+    memcpy(token->value, start_pos, str_len);
+    token->value[str_len] = '\0';
+    (*json)++;
+    return token;
+}
+
 static token_t *parse_string(const char **json, token_t *token)
 {
+    const char *start_pos = NULL;
+
     token->type = TOKEN_STRING;
     token->value[0] = '\0';
-    size_t str_len = 0;
-    const char *start_pos = NULL;
 
     (*json)++;
     start_pos = *json;
     while (**json != '\0') {
         if (**json == '\"') {
-            str_len = (size_t) ((*json) - start_pos);
-            if (str_len > VALUE_MAX_LEN) {
-                token->type = TOKEN_ERROR;
-                return token;
-            }
-            memcpy(token->value, start_pos, str_len);
-            token->value[str_len] = '\0';
-            (*json)++;
+            token = _parse_string_data(json, token, start_pos);
             return token;
         }
         (*json)++;

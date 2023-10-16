@@ -59,7 +59,7 @@ int parse_and_print_file(const char *file, bool format, int fd)
     }
     json_str = json_str_o;
 
-    JSONValue *json = parse_json(json_str);
+    JSONValue *json = json_parse(json_str);
     if (json->type != JSON_OBJECT) {
         printf("Error: Invalid JSON\n");
         return 1;

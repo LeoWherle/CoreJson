@@ -24,7 +24,8 @@ typedef enum {
     TOKEN_END,
 } token_type_e;
 
-extern const char *token_tTypeString[];
+#define IS_WHITESPACE(c) (c == ' ' || c == '\t' || c == '\n' || c == '\r')
+#define IS_NUMBER(c)     (isdigit(c) || c == '.' || c == '+' || c == '-')
 
 typedef struct {
     token_type_e type;

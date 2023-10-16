@@ -48,14 +48,22 @@ struct JSONArray {
     size_t size;
 };
 
-#define parse_json(json) parse_value((const char **) &json)
+
+/** PARSING **/
+JSONValue *json_parse(const char *json);
 
 JSONValue *parse_value(const char **json);
 
-void json_print_value(JSONValue *jsonValue, uint32_t, bool format, int fd);
-
+/** PRINT **/
 void json_print(JSONValue *jsonValue, bool format, int fd);
 
+void json_print_value(JSONValue *jsonValue, uint32_t, bool format, int fd);
+
+/** DESTRUCTORS **/
 void json_free(JSONValue *jsonValue);
+
+void json_object_free(JSONObject *object);
+void json_array_free(JSONArray *array);
+void json_value_free(JSONValue *jsonValue);
 
 #endif /* !COREJSON_H_ */

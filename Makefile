@@ -4,8 +4,8 @@ BIN := json
 TEST_BIN := unit_tests
 
 # source files
-SRC = 	src/lexer.c \
-		src/parser.c \
+SRC = 	src/json_lexer.c \
+		src/json_parser.c \
 		src/json_print.c \
 		src/json_free.c
 
