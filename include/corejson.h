@@ -29,7 +29,7 @@ typedef enum {
 struct JSONValue {
     JSONValueType type;
     union {
-        char string_value[VALUE_MAX_LEN + 1];
+        char string_value[VALUE_LEN_MAX + 1];
         double number_value;
         JSONObject *object_value;
         JSONArray *array_value;
@@ -53,6 +53,8 @@ struct JSONArray {
 JSONValue *json_parse(const char *json);
 
 JSONValue *parse_value(const char **json);
+JSONValue *parse_object(const char **json);
+JSONValue *parse_array(const char **json);
 
 /** PRINT **/
 void json_print(JSONValue *jsonValue, bool format, int fd);

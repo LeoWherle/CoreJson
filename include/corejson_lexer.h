@@ -29,10 +29,12 @@ typedef enum {
 
 typedef struct {
     token_type_e type;
-#define VALUE_MAX_LEN 255
-    char value[VALUE_MAX_LEN + 1];
+#define VALUE_LEN_MAX 255
+    char value[VALUE_LEN_MAX + 1];
 } token_t;
 
 token_t *next_token(const char **p, token_t *token);
+
+const char *token_type_get_string(token_type_e type);
 
 #endif /* !COREJSON_LEXER_H_ */

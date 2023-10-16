@@ -5,7 +5,9 @@ TEST_BIN := unit_tests
 
 # source files
 SRC = 	src/json_lexer.c \
+		src/json_lexer_helper.c \
 		src/json_parser.c \
+		src/json_object_parser.c \
 		src/json_print.c \
 		src/json_free.c
 

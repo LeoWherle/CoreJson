@@ -19,7 +19,7 @@ static token_t *_parse_string_data(
     size_t str_len = 0;
 
     str_len = (size_t) ((*json) - start_pos);
-    if (str_len > VALUE_MAX_LEN) {
+    if (str_len > VALUE_LEN_MAX) {
         token->type = TOKEN_ERROR;
         return token;
     }
@@ -112,3 +112,4 @@ token_t *next_token(const char **json, token_t *token)
     }
     return token;
 }
+
