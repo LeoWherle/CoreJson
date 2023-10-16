@@ -30,6 +30,6 @@ typedef struct {
     char value[VALUE_MAX_LEN + 1];
 } token_t;
 
-token_t next_token(const char **p);
+token_t *next_token(const char **p, token_t *token);
 
 #endif /* !COREJSON_LEXER_H_ */

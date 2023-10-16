@@ -1,9 +1,9 @@
 #include <ctype.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdint.h>
 #include "corejson.h"
 
 static JSONValue *parse_object(const char **json);
@@ -11,7 +11,8 @@ static JSONValue *parse_array(const char **json);
 
 JSONValue *parse_value(const char **json)
 {
-    token_t token = next_token(json);
+    token_t token = {0};
+    next_token(json, &token);
     JSONValue *value = NULL;
 
     value = malloc(sizeof(JSONValue));
@@ -60,6 +61,7 @@ static JSONValue *parse_object(const char **json)
     JSONValue *value = NULL;
     JSONObject *object = NULL;
     JSONValue *property = NULL;
+    token_t token = {0};
 
     value = malloc(sizeof(JSONValue));
     object = malloc(sizeof(JSONObject));
@@ -73,7 +75,7 @@ static JSONValue *parse_object(const char **json)
     value->type = JSON_OBJECT;
 
     while (true) {
-        token_t token = next_token(json);
+        next_token(json, &token);
         if (token.type == TOKEN_RIGHT_BRACE)
             break; // End of object
 
@@ -84,7 +86,7 @@ static JSONValue *parse_object(const char **json)
 
         strncpy(key, token.value, sizeof(key));
 
-        token = next_token(json);
+        next_token(json, &token);
         if (token.type != TOKEN_COLON) {
             value->type = JSON_NULL; // Error in parsing
             break;
@@ -117,7 +119,7 @@ static JSONValue *parse_object(const char **json)
         object->size++;
 
         // Check for more properties or end of object
-        token = next_token(json);
+        next_token(json, &token);
         if (token.type == TOKEN_COMMA) {
             continue;
         } else if (token.type == TOKEN_RIGHT_BRACE) {
@@ -147,6 +149,7 @@ static JSONValue *parse_array(const char **json)
     JSONValue *value = NULL;
     JSONArray *array = NULL;
     JSONValue *element = NULL;
+    token_t token = {0};
 
     value = malloc(sizeof(JSONValue));
     array = malloc(sizeof(JSONArray));
@@ -160,7 +163,7 @@ static JSONValue *parse_array(const char **json)
     array->elements = NULL;
     value->type = JSON_ARRAY;
     while (true) {
-        token_t token = next_token(json);
+        next_token(json, &token);
         if (token.type == TOKEN_RIGHT_BRACKET)
             break; // End of array
 
@@ -183,7 +186,7 @@ static JSONValue *parse_array(const char **json)
         array->size++;
 
         // Check for more elements or end of array
-        token = next_token(json);
+        next_token(json, &token);
         if (token.type == TOKEN_COMMA) {
             continue;
         } else if (token.type == TOKEN_RIGHT_BRACKET) {

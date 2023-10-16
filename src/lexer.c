@@ -73,11 +73,10 @@ static bool is_numeric(const char *str)
 }
 
 // Function to parse a string token
-static token_t parse_string(const char **json)
+static token_t *parse_string(const char **json, token_t *token)
 {
-    token_t token;
-    token.type = TOKEN_STRING;
-    token.value[0] = '\0';
+    token->type = TOKEN_STRING;
+    token->value[0] = '\0';
     size_t str_len = 0;
     const char *start_pos = NULL;
 
@@ -87,112 +86,109 @@ static token_t parse_string(const char **json)
         if (**json == '\"') {
             str_len = (size_t) ((*json) - start_pos);
             if (str_len > VALUE_MAX_LEN) {
-                token.type = TOKEN_ERROR;
+                token->type = TOKEN_ERROR;
                 return token;
             }
-            memcpy(token.value, start_pos, str_len);
-            token.value[str_len] = '\0';
+            memcpy(token->value, start_pos, str_len);
+            token->value[str_len] = '\0';
             (*json)++;
             return token;
         }
         (*json)++;
     }
-    token.type = TOKEN_ERROR;
+    token->type = TOKEN_ERROR;
     return token;
 }
 
 // Function to parse a number token
-static token_t parse_number(const char **json)
+static token_t *parse_number(const char **json, token_t *token)
 {
-    token_t token;
-    token.type = TOKEN_NUMBER;
-    token.value[0] = '\0';
+    token->type = TOKEN_NUMBER;
+    token->value[0] = '\0';
 
     while (**json != '\0' && IS_NUMBER(**json)) {
-        strncat(token.value, *json, 1);
+        strncat(token->value, *json, 1);
         (*json)++;
     }
-
     return token;
 }
 
 // Function to identify and tokenize the next JSON token
-token_t next_token(const char **json)
+token_t *next_token(const char **json, token_t *token)
 {
-    token_t token;
-    token.value[0] = '\0';
+    token->value[0] = '\0';
 
     skip_whitespace(json);
 
     switch (**json) {
-        case '\0': token.type = TOKEN_END; break;
+        case '\0': token->type = TOKEN_END; break;
         case '{':
-            token.type = TOKEN_LEFT_BRACE;
-            strncat(token.value, *json, 1);
+            token->type = TOKEN_LEFT_BRACE;
+            strncat(token->value, *json, 1);
             (*json)++;
             break;
         case '}':
-            token.type = TOKEN_RIGHT_BRACE;
-            strncat(token.value, *json, 1);
+            token->type = TOKEN_RIGHT_BRACE;
+            strncat(token->value, *json, 1);
             (*json)++;
             break;
         case '[':
-            token.type = TOKEN_LEFT_BRACKET;
-            strncat(token.value, *json, 1);
+            token->type = TOKEN_LEFT_BRACKET;
+            strncat(token->value, *json, 1);
             (*json)++;
             break;
         case ']':
-            token.type = TOKEN_RIGHT_BRACKET;
-            strncat(token.value, *json, 1);
+            token->type = TOKEN_RIGHT_BRACKET;
+            strncat(token->value, *json, 1);
             (*json)++;
             break;
         case ':':
-            token.type = TOKEN_COLON;
-            strncat(token.value, *json, 1);
+            token->type = TOKEN_COLON;
+            strncat(token->value, *json, 1);
             (*json)++;
             break;
         case ',':
-            token.type = TOKEN_COMMA;
-            strncat(token.value, *json, 1);
+            token->type = TOKEN_COMMA;
+            strncat(token->value, *json, 1);
             (*json)++;
             break;
         case 't':
             if (strncmp(*json, "true", 4) == 0) {
-                token.type = TOKEN_TRUE;
-                strcpy(token.value, "true");
+                token->type = TOKEN_TRUE;
+                strcpy(token->value, "true");
                 *json += 4;
             } else {
-                token.type = TOKEN_ERROR;
+                token->type = TOKEN_ERROR;
             }
             break;
         case 'f':
             if (strncmp(*json, "false", 5) == 0) {
-                token.type = TOKEN_FALSE;
-                strcpy(token.value, "false");
+                token->type = TOKEN_FALSE;
+                strcpy(token->value, "false");
                 *json += 5;
             } else {
-                token.type = TOKEN_ERROR;
+                token->type = TOKEN_ERROR;
             }
             break;
         case 'n':
             if (strncmp(*json, "null", 4) == 0) {
-                token.type = TOKEN_NULL;
-                strcpy(token.value, "null");
+                token->type = TOKEN_NULL;
+                strcpy(token->value, "null");
                 *json += 4;
             } else {
-                token.type = TOKEN_ERROR;
+                token->type = TOKEN_ERROR;
             }
             break;
-        case '\"': token = parse_string(json); break;
+        case '\"': token = parse_string(json, token); break;
         default:
             if (isdigit(**json) || **json == '-') {
-                token = parse_number(json);
+                token = parse_number(json, token);
             } else {
-                token.type = TOKEN_ERROR;
+                token->type = TOKEN_ERROR;
             }
             break;
     }
-    // printf("%s\t%s\n", token_tTypeString[token.type], token.value);
+    // printf("%s\t%s\n", token_tTypeString[token->type],token->value);
 
     return token;
 }
