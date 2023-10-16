@@ -10,6 +10,8 @@ build/
 json
 unit_tests
 
+include/version.h
+
 .vscode/
 .idea/
 
