@@ -29,9 +29,9 @@ DISTOUTPUT := $(BIN).tar.gz
 BUILD_DIR = build
 
 # intermediate directory for generated object files
-OBJDIR := build/obj
+OBJDIR := $(BUILD_DIR)/obj
 # intermediate directory for generated dependency files
-DEPDIR := build/dep
+DEPDIR := $(BUILD_DIR)/dep
 
 # object files, auto generated from source files
 OBJS := $(patsubst %,$(OBJDIR)/%.o,$(basename $(SRCS)))
