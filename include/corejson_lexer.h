@@ -24,6 +24,8 @@ typedef enum {
     TOKEN_END,
 } token_type_e;
 
+extern const char *token_tTypeString[];
+
 typedef struct {
     token_type_e type;
 #define VALUE_MAX_LEN 255

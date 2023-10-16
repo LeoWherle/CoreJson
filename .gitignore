@@ -7,8 +7,7 @@
 
 build/
 
-bsq
-generator
+json
 unit_tests
 
 .vscode/

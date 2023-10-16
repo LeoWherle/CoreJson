@@ -57,17 +57,17 @@ Test(json_lexer, test_next_token_array)
     cr_assert_eq(token.type, TOKEN_LEFT_BRACKET);
     next_token(&p, &token);
     cr_assert_eq(token.type, TOKEN_NUMBER);
-    cr_assert_eq(atoi(token.value), 1);
+    cr_assert_eq(atof(token.value), 1);
     next_token(&p, &token);
     cr_assert_eq(token.type, TOKEN_COMMA);
     next_token(&p, &token);
     cr_assert_eq(token.type, TOKEN_NUMBER);
-    cr_assert_eq(atoi(token.value), 2);
+    cr_assert_eq(atof(token.value), 2);
     next_token(&p, &token);
     cr_assert_eq(token.type, TOKEN_COMMA);
     next_token(&p, &token);
     cr_assert_eq(token.type, TOKEN_NUMBER);
-    cr_assert_eq(atoi(token.value), 3);
+    cr_assert_eq(atof(token.value), 3);
     next_token(&p, &token);
     cr_assert_eq(token.type, TOKEN_RIGHT_BRACKET);
 }
@@ -171,7 +171,27 @@ Test(json_lexer, test_next_token_nested_object)
     cr_assert_str_eq(token.value, "city");
     next_token(&p, &token);
     cr_assert_eq(token.type, TOKEN_COLON);
+    next_token(&p, &token);
+    cr_assert_eq(token.type, TOKEN_STRING);
+    cr_assert_str_eq(token.value, "New York");
+    next_token(&p, &token);
+    cr_assert_eq(token.type, TOKEN_COMMA);
+    next_token(&p, &token);
+    cr_assert_eq(token.type, TOKEN_STRING);
+    cr_assert_str_eq(token.value, "state");
+    next_token(&p, &token);
+    cr_assert_eq(token.type, TOKEN_COLON);
+    next_token(&p, &token);
+    cr_assert_eq(token.type, TOKEN_STRING);
+    cr_assert_str_eq(token.value, "NY");
+    next_token(&p, &token);
+    cr_assert_eq(token.type, TOKEN_RIGHT_BRACE);
+    next_token(&p, &token);
+    cr_assert_eq(token.type, TOKEN_RIGHT_BRACE);
+    next_token(&p, &token);
+    cr_assert_eq(token.type, TOKEN_END);
 }
+
 Test(json_lexer, test_next_token_nested_array)
 {
     const char *json = "[1, [2, 3], [4, [5, 6]]]";
@@ -219,4 +239,8 @@ Test(json_lexer, test_next_token_nested_array)
     cr_assert_eq(token.type, TOKEN_RIGHT_BRACKET);
     next_token(&p, &token);
     cr_assert_eq(token.type, TOKEN_RIGHT_BRACKET);
+    next_token(&p, &token);
+    cr_assert_eq(token.type, TOKEN_RIGHT_BRACKET);
+    next_token(&p, &token);
+    cr_assert_eq(token.type, TOKEN_END);
 }

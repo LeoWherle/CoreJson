@@ -6,10 +6,10 @@
 */
 
 #ifndef COREJSON_H_
-    #define COREJSON_H_
+#define COREJSON_H_
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include "corejson_lexer.h"
 
 typedef struct JSONValue JSONValue;
@@ -19,11 +19,11 @@ typedef struct JSONArray JSONArray;
 typedef enum {
     JSON_STRING,
     JSON_NUMBER,
-    JSON_OBJECT,
-    JSON_ARRAY,
     JSON_TRUE,
     JSON_FALSE,
-    JSON_NULL
+    JSON_NULL,
+    JSON_OBJECT,
+    JSON_ARRAY,
 } JSONValueType;
 
 struct JSONValue {
@@ -38,24 +38,24 @@ struct JSONValue {
 };
 
 struct JSONObject {
-    JSONValue *properties;
+    JSONValue *values;
     char **keys;
     size_t size;
 };
-
 
 struct JSONArray {
     JSONValue *elements;
     size_t size;
 };
 
-#define parse_json(json) parse_value(&(json))
+#define parse_json(json) parse_value((const char **) &json)
 
 JSONValue *parse_value(const char **json);
 
-void print_json(JSONValue *jsonValue, uint32_t depth);
+void json_print_value(JSONValue *jsonValue, uint32_t, bool format, int fd);
+
+void json_print(JSONValue *jsonValue, bool format, int fd);
 
 void json_free(JSONValue *jsonValue);
-
 
 #endif /* !COREJSON_H_ */

@@ -12,11 +12,12 @@ static JSONValue *parse_array(const char **json);
 JSONValue *parse_value(const char **json)
 {
     token_t token = {0};
-    next_token(json, &token);
     JSONValue *value = NULL;
 
+    next_token(json, &token);
     value = malloc(sizeof(JSONValue));
     if (value == NULL) {
+        perror("malloc");
         return NULL;
     }
     switch (token.type) {
@@ -54,7 +55,6 @@ JSONValue *parse_value(const char **json)
     return value;
 }
 
-// Function to parse a JSON object
 static JSONValue *parse_object(const char **json)
 {
     char key[VALUE_MAX_LEN] = {0};
@@ -70,17 +70,17 @@ static JSONValue *parse_object(const char **json)
         free(object);
     }
     object->size = 0;
-    object->properties = NULL;
+    object->values = NULL;
     object->keys = NULL;
     value->type = JSON_OBJECT;
 
     while (true) {
         next_token(json, &token);
         if (token.type == TOKEN_RIGHT_BRACE)
-            break; // End of object
+            break;
 
         if (token.type != TOKEN_STRING) {
-            value->type = JSON_NULL; // Error in parsing
+            value->type = JSON_NULL;
             break;
         }
 
@@ -88,7 +88,7 @@ static JSONValue *parse_object(const char **json)
 
         next_token(json, &token);
         if (token.type != TOKEN_COLON) {
-            value->type = JSON_NULL; // Error in parsing
+            value->type = JSON_NULL;
             break;
         }
 
@@ -98,10 +98,9 @@ static JSONValue *parse_object(const char **json)
             break;
         }
 
-        // Expand the object's properties array
-        object->properties =
-            realloc(object->properties, (object->size + 1) * sizeof(JSONValue));
-        if (object->properties == NULL) {
+        object->values =
+            realloc(object->values, (object->size + 1) * sizeof(JSONValue));
+        if (object->values == NULL) {
             value->type = JSON_NULL;
             free(property);
             break;
@@ -113,19 +112,18 @@ static JSONValue *parse_object(const char **json)
             free(property);
             break;
         }
-        memcpy(&object->properties[object->size], property, sizeof(JSONValue));
+        memcpy(&object->values[object->size], property, sizeof(JSONValue));
         free(property);
         object->keys[object->size] = strdup(key);
         object->size++;
 
-        // Check for more properties or end of object
         next_token(json, &token);
         if (token.type == TOKEN_COMMA) {
             continue;
         } else if (token.type == TOKEN_RIGHT_BRACE) {
             break;
         } else {
-            value->type = JSON_NULL; // Error in parsing
+            value->type = JSON_NULL;
             break;
         }
     }
@@ -133,17 +131,15 @@ static JSONValue *parse_object(const char **json)
     if (value->type != JSON_NULL) {
         value->object_value = object;
     } else {
-        // Clean up on error
         for (size_t i = 0; i < object->size; i++) {
             free(object->keys[i]);
         }
         free(object->keys);
-        free(object->properties);
+        free(object->values);
     }
     return value;
 }
 
-// Function to parse a JSON array
 static JSONValue *parse_array(const char **json)
 {
     JSONValue *value = NULL;
@@ -163,36 +159,31 @@ static JSONValue *parse_array(const char **json)
     array->elements = NULL;
     value->type = JSON_ARRAY;
     while (true) {
-        next_token(json, &token);
-        if (token.type == TOKEN_RIGHT_BRACKET)
-            break; // End of array
-
         element = parse_value(json);
         if (element == NULL) {
             value->type = JSON_NULL;
             break;
         }
 
-        // Expand the array's elements array
         array->elements =
-            realloc(array->elements, (array->size + 1) * sizeof(JSONValue));
+            reallocarray(array->elements, (array->size + 1), sizeof(JSONValue));
         if (array->elements == NULL) {
             value->type = JSON_NULL;
+            perror("realloc");
             free(element);
             break;
         }
-        memcpy(element, &array->elements[array->size], sizeof(JSONValue));
+        memcpy(&array->elements[array->size], element, sizeof(JSONValue));
         free(element);
         array->size++;
 
-        // Check for more elements or end of array
         next_token(json, &token);
         if (token.type == TOKEN_COMMA) {
             continue;
         } else if (token.type == TOKEN_RIGHT_BRACKET) {
             break;
         } else {
-            value->type = JSON_NULL; // Error in parsing
+            value->type = JSON_NULL;
             break;
         }
     }
@@ -200,7 +191,6 @@ static JSONValue *parse_array(const char **json)
     if (value->type != JSON_NULL) {
         value->array_value = array;
     } else {
-        // Clean up on error
         for (size_t i = 0; i < array->size; i++) {
             if (array->elements[i].type == JSON_STRING) {
                 free(array->elements[i].string_value);
@@ -208,94 +198,5 @@ static JSONValue *parse_array(const char **json)
         }
         free(array->elements);
     }
-
     return value;
-}
-
-// Function to recursively free JSON data
-void free_json(JSONValue *jsonValue)
-{
-    if (jsonValue->type == JSON_OBJECT) {
-        for (size_t i = 0; i < jsonValue->object_value->size; i++) {
-            free_json(&jsonValue->object_value->properties[i]);
-            free(jsonValue->object_value->keys[i]);
-        }
-        free(jsonValue->object_value->keys);
-        free(jsonValue->object_value->properties);
-    } else if (jsonValue->type == JSON_ARRAY) {
-        for (size_t i = 0; i < jsonValue->array_value->size; i++) {
-            free_json(&jsonValue->array_value->elements[i]);
-        }
-        free(jsonValue->array_value->elements);
-    }
-    free(jsonValue);
-}
-
-static void print_spaces(uint32_t depth)
-{
-    for (uint32_t i = 0; i < depth; i++) {
-        printf("  ");
-    }
-}
-
-void print_json(JSONValue *jsonValue, uint32_t depth)
-{
-    switch (jsonValue->type) {
-        case JSON_ARRAY:
-            printf("[\n");
-            for (uint32_t i = 0; i < jsonValue->array_value->size; i++) {
-                print_spaces(depth + 1);
-                print_json(&jsonValue->array_value->elements[i], depth + 1);
-            }
-            printf("]\n");
-            break;
-        case JSON_OBJECT:
-            print_spaces(depth);
-            printf("{\n");
-            for (uint32_t i = 0; i < jsonValue->object_value->size; i++) {
-                print_spaces(depth + 1);
-                printf("\"%s\": ", jsonValue->object_value->keys[i]);
-                print_json(&jsonValue->object_value->properties[i], depth + 1);
-            }
-            print_spaces(depth);
-            printf("}\n");
-            break;
-        case JSON_NUMBER: printf("%e\n", jsonValue->number_value); break;
-        case JSON_FALSE:
-        case JSON_TRUE:
-            printf("%s\n", jsonValue->bool_value ? "true" : "false");
-            break;
-        case JSON_STRING: printf("%s\n", jsonValue->string_value); break;
-        case JSON_NULL: printf("null"); break;
-
-        default: break;
-    }
-}
-void json_free(JSONValue *jsonValue)
-{
-    switch (jsonValue->type) {
-        case JSON_ARRAY:
-            for (uint32_t i = 0; i < jsonValue->array_value->size; i++) {
-                json_free(&jsonValue->array_value->elements[i]);
-            }
-            free(jsonValue->array_value->elements);
-            free(jsonValue->array_value);
-            break;
-        case JSON_OBJECT:
-            for (uint32_t i = 0; i < jsonValue->object_value->size; i++) {
-                json_free(&jsonValue->object_value->properties[i]);
-                free(jsonValue->object_value->keys[i]);
-            }
-            free(jsonValue->object_value->properties);
-            free(jsonValue->object_value->keys);
-            free(jsonValue->object_value);
-            break;
-        case JSON_NUMBER:
-        case JSON_FALSE:
-        case JSON_TRUE:
-        case JSON_STRING:
-        case JSON_NULL: break;
-
-        default: break;
-    }
 }
