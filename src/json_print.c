@@ -60,6 +60,21 @@ static void json_object_print(
     dprintf(fd, "}");
 }
 
+static void json_number_print(JSONValue *jsonValue, int fd)
+{
+    // check if number is an integer
+    if (jsonValue->number_value == (int) jsonValue->number_value) {
+        dprintf(fd, "%d", (int) jsonValue->number_value);
+        return;
+    } else if (jsonValue->number_value == (long) jsonValue->number_value) {
+        dprintf(fd, "%ld", (long) jsonValue->number_value);
+        return;
+    } else {
+        dprintf(fd, "%f", jsonValue->number_value);
+        return;
+    }
+}
+
 void json_print_value(JSONValue *jsonValue, uint32_t depth, bool format, int fd)
 {
     switch (jsonValue->type) {
@@ -69,7 +84,7 @@ void json_print_value(JSONValue *jsonValue, uint32_t depth, bool format, int fd)
         case JSON_OBJECT:
             json_object_print(jsonValue->object_value, depth, format, fd);
             break;
-        case JSON_NUMBER: dprintf(fd, "%f", jsonValue->number_value); break;
+        case JSON_NUMBER: json_number_print(jsonValue, fd); break;
         case JSON_FALSE:
         case JSON_TRUE:
             dprintf(fd, "%s", jsonValue->bool_value ? "true" : "false");

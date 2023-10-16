@@ -6,20 +6,19 @@
 #include <string.h>
 #include "corejson.h"
 
-static int _init_object_data(JSONValue **value, JSONObject **object)
+static int _init_object_data(JSONValue *value, JSONObject **object)
 {
-    *value = malloc(sizeof(JSONValue));
     *object = malloc(sizeof(JSONObject));
-    if (*value == NULL || *object == NULL) {
-        free(*value);
+    if (*object == NULL) {
+        perror("malloc");
         free(*object);
         return 1;
     } else {
         (*object)->size = 0;
         (*object)->values = NULL;
         (*object)->keys = NULL;
-        (*value)->type = JSON_OBJECT;
-        (*value)->object_value = *object;
+        value->type = JSON_OBJECT;
+        value->object_value = *object;
         return 0;
     }
 }
@@ -77,8 +76,10 @@ static int _get_value_and_set_data(
     }
     if (_set_object_data(object, property, value, key_buffer) != 0) {
         free(property);
+
         return 1;
     }
+    free(property);
     return 0;
 }
 
@@ -92,6 +93,10 @@ static int _object_has_no_data(JSONValue *value, const char **json)
     } else if (token.type == TOKEN_RIGHT_BRACE) {
         return 1;
     } else {
+        fprintf(stderr, "Expected %s or %s, got %s\n",
+            token_type_get_string(TOKEN_COMMA),
+            token_type_get_string(TOKEN_RIGHT_BRACE),
+            token_type_get_string(token.type));
         value->type = JSON_NULL;
         return 1;
     }
@@ -109,13 +114,12 @@ static int _get_comma(JSONValue *value, const char **json)
     return 0;
 }
 
-JSONValue *parse_object(const char **json)
+JSONValue *parse_object(const char **json, JSONValue *value)
 {
     char key_buffer[VALUE_LEN_MAX + 1] = {0};
-    JSONValue *value = NULL;
     JSONObject *object = NULL;
 
-    if (_init_object_data(&value, &object) != 0)
+    if (_init_object_data(value, &object) != 0)
         return NULL;
     while (true) {
         if (_get_key(value, key_buffer, json) != 0)

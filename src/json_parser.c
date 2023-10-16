@@ -5,11 +5,73 @@
 #include <stdlib.h>
 #include <string.h>
 #include "corejson.h"
+#include "corejson_internal.h"
 
+parse_func_t parsefunc_table[] = {
+    [TOKEN_STRING] = jns_parse_string,
+    [TOKEN_NUMBER] = jns_parse_number,
+    [TOKEN_TRUE] = jns_parse_true,
+    [TOKEN_FALSE] = jns_parse_false,
+    [TOKEN_NULL] = jns_parse_null,
+    [TOKEN_LEFT_BRACE] = jns_parse_object,
+    [TOKEN_LEFT_BRACKET] = jns_parse_array,
+};
 
-JSONValue *json_parse(const char *json)
+int jns_parse_string(JSONValue *value, token_t *token, UNUSED const char **json)
 {
-    return parse_value(&json);
+    value->type = JSON_STRING;
+    strncpy(value->string_value, token->value, sizeof(value->string_value));
+    return 0;
+}
+
+int jns_parse_number(JSONValue *value, token_t *token, UNUSED const char **json)
+{
+    value->type = JSON_NUMBER;
+    value->number_value = atof(token->value);
+    return 0;
+}
+
+int jns_parse_true(
+    JSONValue *value, UNUSED token_t *token, UNUSED const char **json)
+{
+    value->type = JSON_TRUE;
+    value->bool_value = true;
+    return 0;
+}
+
+int jns_parse_false(
+    JSONValue *value, UNUSED token_t *token, UNUSED const char **json)
+{
+    value->type = JSON_FALSE;
+    value->bool_value = false;
+    return 0;
+}
+
+int jns_parse_null(
+    JSONValue *value, UNUSED token_t *token, UNUSED const char **json)
+{
+    value->type = JSON_NULL;
+    return 0;
+}
+
+int jns_parse_object(JSONValue *value, UNUSED token_t *token, const char **json)
+{
+    value->type = JSON_OBJECT;
+    value = parse_object(json, value);
+    if (value->object_value == NULL) {
+        return 1;
+    }
+    return 0
+}
+
+int jns_parse_array(JSONValue *value, UNUSED token_t *token, const char **json)
+{
+    value->type = JSON_ARRAY;
+    value = parse_array(json, value);
+    if (value->array_value == NULL) {
+        return 1;
+    }
+    return 0;
 }
 
 JSONValue *parse_value(const char **json)
@@ -23,93 +85,25 @@ JSONValue *parse_value(const char **json)
         perror("malloc");
         return NULL;
     }
-    switch (token.type) {
-        case TOKEN_STRING:
-            value->type = JSON_STRING;
-            strncpy(
-                value->string_value, token.value, sizeof(value->string_value));
-            break;
-        case TOKEN_NUMBER:
-            value->type = JSON_NUMBER;
-            value->number_value = atof(token.value);
-            break;
-        case TOKEN_TRUE:
-            value->type = JSON_TRUE;
-            value->bool_value = true;
-            break;
-        case TOKEN_FALSE:
-            value->type = JSON_FALSE;
-            value->bool_value = false;
-            break;
-        case TOKEN_NULL: value->type = JSON_NULL; break;
-        case TOKEN_LEFT_BRACE:
-            free(value);
-            value = parse_object(json);
-            break;
-        case TOKEN_LEFT_BRACKET:
-            free(value);
-            value = parse_array(json);
-            break;
-        default:
-            free(value);
-            value = NULL;
-            break;
+    if (parsefunc_table[token.type](value, &token, json) != 0) {
+        free(value);
+        return NULL;
     }
     return value;
 }
 
-JSONValue *parse_array(const char **json)
+
+JSONValue *json_parse(const char *json)
 {
     JSONValue *value = NULL;
-    JSONArray *array = NULL;
-    JSONValue *element = NULL;
-    token_t token = {0};
 
-    value = malloc(sizeof(JSONValue));
-    array = malloc(sizeof(JSONArray));
-    if (value == NULL || array == NULL) {
-        free(value);
-        free(array);
+    value = parse_value(&json);
+    if (value == NULL) {
         return NULL;
     }
-
-    array->size = 0;
-    array->elements = NULL;
-    value->type = JSON_ARRAY;
-    while (true) {
-        element = parse_value(json);
-        if (element == NULL) {
-            value->type = JSON_NULL;
-            break;
-        }
-
-        array->elements =
-            reallocarray(array->elements, (array->size + 1), sizeof(JSONValue));
-        if (array->elements == NULL) {
-            value->type = JSON_NULL;
-            perror("realloc");
-            free(element);
-            break;
-        }
-        memcpy(&array->elements[array->size], element, sizeof(JSONValue));
-        free(element);
-        array->size++;
-
-        next_token(json, &token);
-        if (token.type == TOKEN_COMMA) {
-            continue;
-        } else if (token.type == TOKEN_RIGHT_BRACKET) {
-            break;
-        } else {
-            value->type = JSON_NULL;
-            break;
-        }
-    }
-
-    if (value->type != JSON_NULL) {
-        value->array_value = array;
-    } else {
-        json_array_free(array);
+    if (value->type != JSON_OBJECT) {
+        json_free(value);
+        return NULL;
     }
     return value;
 }

@@ -38,4 +38,5 @@ void json_value_free(JSONValue *jsonValue)
 void json_free(JSONValue *jsonValue)
 {
     json_value_free(jsonValue);
+    free(jsonValue);
 }

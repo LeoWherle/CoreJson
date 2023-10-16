@@ -53,8 +53,8 @@ struct JSONArray {
 JSONValue *json_parse(const char *json);
 
 JSONValue *parse_value(const char **json);
-JSONValue *parse_object(const char **json);
-JSONValue *parse_array(const char **json);
+JSONValue *parse_object(const char **json, JSONValue *jsonValue);
+JSONValue *parse_array(const char **json, JSONValue *jsonValue);
 
 /** PRINT **/
 void json_print(JSONValue *jsonValue, bool format, int fd);
