@@ -61,7 +61,7 @@ int jns_parse_object(JSONValue *value, UNUSED token_t *token, const char **json)
     if (value->object_value == NULL) {
         return 1;
     }
-    return 0
+    return 0;
 }
 
 int jns_parse_array(JSONValue *value, UNUSED token_t *token, const char **json)
