@@ -48,13 +48,16 @@ struct JSONArray {
     size_t size;
 };
 
-
 /** PARSING **/
 JSONValue *json_parse(const char *json);
 
 JSONValue *parse_value(const char **json);
 JSONValue *parse_object(const char **json, JSONValue *jsonValue);
 JSONValue *parse_array(const char **json, JSONValue *jsonValue);
+
+/** CONSTRUCTORS **/
+int object_data_add(JSONObject *object, JSONValue *property, char *key_buffer);
+int array_data_add(JSONArray *array, JSONValue *element);
 
 /** PRINT **/
 void json_print(JSONValue *jsonValue, bool format, int fd);

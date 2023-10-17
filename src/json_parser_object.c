@@ -1,8 +1,8 @@
-#include <ctype.h>
-#include <stdbool.h>
-#include <stdint.h>
+// perror, fprintf
 #include <stdio.h>
+// malloc, free
 #include <stdlib.h>
+// memcpy
 #include <string.h>
 #include "corejson.h"
 
@@ -41,29 +41,6 @@ static int _get_key(JSONValue *value, char *key_buffer, const char **json)
     }
 }
 
-static int _set_object_data(
-    JSONObject *object, JSONValue *property, JSONValue *value, char *key_buffer)
-{
-    object->values =
-        reallocarray(object->values, (object->size + 1), sizeof(JSONValue));
-    if (object->values == NULL) {
-        value->type = JSON_NULL;
-        perror("reallocarray");
-        return 1;
-    }
-    memcpy(&object->values[object->size], property, sizeof(JSONValue));
-    object->keys =
-        reallocarray(object->keys, (object->size + 1), sizeof(char *));
-    if (object->keys == NULL) {
-        value->type = JSON_NULL;
-        perror("reallocarray");
-        return 1;
-    }
-    object->keys[object->size] = strdup(key_buffer);
-    object->size++;
-    return 0;
-}
-
 static int _get_value_and_set_data(
     JSONObject *object, JSONValue *value, char *key_buffer, const char **json)
 {
@@ -74,9 +51,9 @@ static int _get_value_and_set_data(
         value->type = JSON_NULL;
         return 1;
     }
-    if (_set_object_data(object, property, value, key_buffer) != 0) {
+    if (object_data_add(object, property, key_buffer) != 0) {
         free(property);
-
+        value->type = JSON_NULL;
         return 1;
     }
     free(property);

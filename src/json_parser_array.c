@@ -1,6 +1,3 @@
-#include <ctype.h>
-#include <stdbool.h>
-#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -41,7 +38,7 @@ static int _array_has_no_data(JSONValue *value, const char **json)
     }
 }
 
-int _get_value_and_set_data(
+static int _get_value_and_set_data(
     const char **json, JSONValue *value, JSONArray *array)
 {
     JSONValue *element = NULL;
@@ -51,17 +48,11 @@ int _get_value_and_set_data(
         value->type = JSON_NULL;
         return 1;
     }
-    array->elements =
-        reallocarray(array->elements, (array->size + 1), sizeof(JSONValue));
-    if (array->elements == NULL) {
-        value->type = JSON_NULL;
-        perror("realloc");
+    if (array_data_add(array, element) != 0) {
         free(element);
+        value->type = JSON_NULL;
         return 1;
     }
-    memcpy(&array->elements[array->size], element, sizeof(JSONValue));
-    free(element);
-    array->size++;
     return 0;
 }
 
@@ -84,58 +75,3 @@ JSONValue *parse_array(const char **json, JSONValue *value)
     }
     return value;
 }
-
-/*
-JSONValue *parse_array(const char **json, JSONValue *value)
-{
-    JSONArray *array = NULL;
-    JSONValue *element = NULL;
-    token_t token = {0};
-
-    array = malloc(sizeof(JSONArray));
-    if (array == NULL) {
-        free(array);
-        return NULL;
-    }
-
-    array->size = 0;
-    array->elements = NULL;
-    value->type = JSON_ARRAY;
-    while (true) {
-        element = parse_value(json);
-        if (element == NULL) {
-            value->type = JSON_NULL;
-            break;
-        }
-
-        array->elements =
-            reallocarray(array->elements, (array->size + 1), sizeof(JSONValue));
-        if (array->elements == NULL) {
-            value->type = JSON_NULL;
-            perror("realloc");
-            free(element);
-            break;
-        }
-        memcpy(&array->elements[array->size], element, sizeof(JSONValue));
-        free(element);
-        array->size++;
-
-        next_token(json, &token);
-        if (token.type == TOKEN_COMMA) {
-            continue;
-        } else if (token.type == TOKEN_RIGHT_BRACKET) {
-            break;
-        } else {
-            value->type = JSON_NULL;
-            break;
-        }
-    }
-
-    if (value->type != JSON_NULL) {
-        value->array_value = array;
-    } else {
-        json_array_free(array);
-    }
-    return value;
-}
-*/
