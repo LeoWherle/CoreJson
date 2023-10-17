@@ -31,6 +31,7 @@ SRCS =   src/main.c \
 
 SRC_TEST = 	tests/t_lexer.c \
 			tests/t_parser.c \
+			tests/t_parser_errors.c \
 			tests/t_json_print.c \
 			$(SRC)
 
@@ -77,13 +78,14 @@ CFLAGS :=  -I./include
 # C++ flags	
 CXXFLAGS :=
 # C/C++ flags
-CPPFLAGS := -Wall -Wextra -pedantic -Wwrite-strings -Winit-self -Wformat=2\
- -Wmissing-include-dirs -Wunreachable-code -Winline -Wundef\
- -Wno-missing-field-initializers -Wno-unused-parameter -Wno-unused-function\
- -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-value\
- -Wno-unused-but-set-variable -Wno-unused-result -Wno-unused-but-set-parameter\
- -Wno-unused-local-typedefs -Wno-unused-const-variable -Wno-unused-label\
- -Wno-unused-function -Wno-unused-variable -Wno-unused-parameter\
+CPPFLAGS := -Wall -Wextra -Wformat=2 -Wswitch-default -Wcast-align \
+     -Wpointer-arith -Wbad-function-cast -Wstrict-prototypes \
+     -Winline -Wundef -Wnested-externs -Wcast-qual -Wshadow  \
+     -Wwrite-strings -Wconversion -Wunreachable-code \
+     -Wstrict-aliasing=2\
+     -ffloat-store -fno-common -fstrict-aliasing \
+     -pedantic -Wunused-macros
+
 # linker flags
 LDFLAGS :=
 # linker flags: libraries to link (e.g. -lfoo)
@@ -93,16 +95,24 @@ DEPFLAGS = -MT $@ -MD -MP -MF $(DEPDIR)/$*.Td
 
 # release build flags (make release=1 ...)
 ifdef release
-	CFLAGS += -O3
-	CXXFLAGS += -O3
+	CFLAGS += -O2
+	CXXFLAGS += -O2
 else
 	CFLAGS += -g3
 	CXXFLAGS += -g3
 endif
 
+ifdef debug
+	LDFLAGS += -DDEBUG
+endif
+
 ifdef native
 	CFLAGS += -march=native
 	CXXFLAGS += -march=native
+endif
+
+ifdef analysis
+	CPPFLAGS += -fanalyzer
 endif
 
 # precompile step
@@ -190,7 +200,7 @@ gen_version:
 $(OBJDIR)/%.o: %.c
 $(OBJDIR)/%.o: %.c $(DEPDIR)/%.d
 	$(PRECOMPILE)
-	@$(CC) $(DEPFLAGS) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
+	@$(CC) $(DEPFLAGS) $(CFLAGS) $(LDFLAGS) $(CPPFLAGS) -c -o $@ $<
 	@echo -e "$(GREEN)built\t$(WHITE)$<$(NC)"
 	@$(POSTCOMPILE)
 

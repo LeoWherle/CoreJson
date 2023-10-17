@@ -23,6 +23,9 @@ void json_object_free(JSONObject *object)
 
 void json_value_free(JSONValue *jsonValue)
 {
+    if (jsonValue == NULL) {
+        return;
+    }
     switch (jsonValue->type) {
         case JSON_ARRAY: json_array_free(jsonValue->array_value); break;
         case JSON_OBJECT: json_object_free(jsonValue->object_value); break;

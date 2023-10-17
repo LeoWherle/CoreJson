@@ -8,6 +8,8 @@
 #ifndef COREJSON_LEXER_H_
 #define COREJSON_LEXER_H_
 
+#include "logs.h"
+
 typedef enum {
     TOKEN_STRING,
     TOKEN_NUMBER,
@@ -23,11 +25,19 @@ typedef enum {
     TOKEN_COLON,
     TOKEN_COMMA,
     TOKEN_ERROR,
-    TOKEN_END,
+    TOKEN_END
 } token_type_e;
 
 #define IS_WHITESPACE(c) (c == ' ' || c == '\t' || c == '\n' || c == '\r')
 #define IS_NUMBER(c)     (isdigit(c) || c == '.' || c == '+' || c == '-')
+
+#define IS_ATOMIC_TOKEN(token) \
+    (token == TOKEN_STRING || token == TOKEN_NUMBER || token == TOKEN_TRUE \
+    || token == TOKEN_FALSE || token == TOKEN_NULL)
+
+#define IS_VALUE_TOKEN(token) \
+    (IS_ATOMIC_TOKEN(token) || token == TOKEN_LEFT_BRACE \
+    || token == TOKEN_LEFT_BRACKET)
 
 typedef struct {
     token_type_e type;

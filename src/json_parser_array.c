@@ -7,7 +7,7 @@ static int _init_object_data(JSONValue *value, JSONArray **array)
 {
     *array = malloc(sizeof(JSONArray));
     if (*array == NULL) {
-        perror("malloc");
+        DERR("malloc");
         free(*array);
         return 1;
     } else {
@@ -29,7 +29,7 @@ static int _array_has_no_data(JSONValue *value, const char **json)
     } else if (token.type == TOKEN_RIGHT_BRACKET) {
         return 1;
     } else {
-        fprintf(stderr, "Expected %s or %s, got %s\n",
+        FLOG(stderr, "Expected %s or %s, got %s\n",
             token_type_get_string(TOKEN_COMMA),
             token_type_get_string(TOKEN_RIGHT_BRACKET),
             token_type_get_string(token.type));
@@ -45,14 +45,16 @@ static int _get_value_and_set_data(
 
     element = parse_value(json);
     if (element == NULL) {
+        json_value_free(element);
         value->type = JSON_NULL;
         return 1;
     }
     if (array_data_add(array, element) != 0) {
-        free(element);
+        json_free(element);
         value->type = JSON_NULL;
         return 1;
     }
+    free(element);
     return 0;
 }
 
@@ -69,9 +71,9 @@ JSONValue *parse_array(const char **json, JSONValue *value)
         if (_array_has_no_data(value, json) != 0)
             break;
     }
-
     if (value->type == JSON_NULL) {
         json_array_free(array);
+        return NULL;
     }
     return value;
 }

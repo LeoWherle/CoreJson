@@ -1,5 +1,3 @@
-// perror, fprintf
-#include <stdio.h>
 // malloc, free
 #include <stdlib.h>
 // memcpy
@@ -10,7 +8,7 @@ static int _init_object_data(JSONValue *value, JSONObject **object)
 {
     *object = malloc(sizeof(JSONObject));
     if (*object == NULL) {
-        perror("malloc");
+        DERR("malloc");
         free(*object);
         return 1;
     } else {
@@ -28,13 +26,11 @@ static int _get_key(JSONValue *value, char *key_buffer, const char **json)
     token_t token = {0};
 
     next_token(json, &token);
-    if (token.type == TOKEN_RIGHT_BRACE) {
-        return 1;
-    } else if (token.type != TOKEN_STRING) {
-        fprintf(stderr, "Expected string, got %s\n",
+    if (token.type != TOKEN_STRING) {
+        FLOG(stderr, "Expected string, got %s\n",
             token_type_get_string(token.type));
         value->type = JSON_NULL;
-        return 2;
+        return 1;
     } else {
         memcpy(key_buffer, token.value, VALUE_LEN_MAX);
         return 0;
@@ -70,7 +66,7 @@ static int _object_has_no_data(JSONValue *value, const char **json)
     } else if (token.type == TOKEN_RIGHT_BRACE) {
         return 1;
     } else {
-        fprintf(stderr, "Expected %s or %s, got %s\n",
+        FLOG(stderr, "Expected %s or %s, got %s\n",
             token_type_get_string(TOKEN_COMMA),
             token_type_get_string(TOKEN_RIGHT_BRACE),
             token_type_get_string(token.type));
@@ -109,7 +105,9 @@ JSONValue *parse_object(const char **json, JSONValue *value)
             break;
     }
     if (value->type == JSON_NULL) {
+        FLOG(stderr, "Error parsing object free memory\n");
         json_object_free(object);
+        return NULL;
     }
     return value;
 }

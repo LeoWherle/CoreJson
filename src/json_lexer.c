@@ -80,7 +80,7 @@ static token_t *parse_char(const char **json, token_t *token, token_type_e type)
 static token_t *parse_string_spec(
     const char **json, token_t *token, token_type_e type, const char *str)
 {
-    uint32_t str_len = strlen(str);
+    size_t str_len = strlen(str);
 
     if (strncmp(*json, str, str_len) == 0) {
         token->type = type;

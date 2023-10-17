@@ -23,7 +23,7 @@ typedef enum {
     JSON_FALSE,
     JSON_NULL,
     JSON_OBJECT,
-    JSON_ARRAY,
+    JSON_ARRAY
 } JSONValueType;
 
 struct JSONValue {
@@ -56,7 +56,8 @@ JSONValue *parse_object(const char **json, JSONValue *jsonValue);
 JSONValue *parse_array(const char **json, JSONValue *jsonValue);
 
 /** CONSTRUCTORS **/
-int object_data_add(JSONObject *object, JSONValue *property, char *key_buffer);
+int object_data_add(
+    JSONObject *object, JSONValue *property, const char *key_buffer);
 int array_data_add(JSONArray *array, JSONValue *element);
 
 /** PRINT **/
