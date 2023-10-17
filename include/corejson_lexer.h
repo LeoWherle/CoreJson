@@ -6,9 +6,9 @@
 */
 
 #ifndef COREJSON_LEXER_H_
-#define COREJSON_LEXER_H_
+    #define COREJSON_LEXER_H_
 
-#include "logs.h"
+    #include "logs.h"
 
 typedef enum {
     TOKEN_STRING,
@@ -28,20 +28,20 @@ typedef enum {
     TOKEN_END
 } token_type_e;
 
-#define IS_WHITESPACE(c) (c == ' ' || c == '\t' || c == '\n' || c == '\r')
-#define IS_NUMBER(c)     (isdigit(c) || c == '.' || c == '+' || c == '-')
+    #define IS_WHITESPACE(c) (c == ' ' || c == '\t' || c == '\n' || c == '\r')
+    #define IS_NUMBER(c)     (isdigit(c) || c == '.' || c == '+' || c == '-')
 
-#define IS_ATOMIC_TOKEN(token) \
-    (token == TOKEN_STRING || token == TOKEN_NUMBER || token == TOKEN_TRUE \
-    || token == TOKEN_FALSE || token == TOKEN_NULL)
+    #define IS_TOKN_BOOL(t) (t == TOKEN_TRUE || t == TOKEN_FALSE)
+    #define IS_TOKN_INT(t)  (t == TOKEN_NUMBER || IS_TOKN_BOOL(t))
+    #define IS_TOKN_NULLABLE(t) (t == TOKEN_NULL || t == TOKEN_STRING)
+    #define IS_TOKN_ATOMIC(tk) (IS_TOKN_INT(tk) || IS_TOKN_NULLABLE(tk))
+    /** IS Container **/
+    #define IS_TOKN_CONTR(t) (t == TOKEN_LEFT_BRACE || t == TOKEN_LEFT_BRACKET)
+    #define IS_TOKN_VAL(token) (IS_TOKN_ATOMIC(token) || IS_TOKN_CONTR(token))
 
-#define IS_VALUE_TOKEN(token) \
-    (IS_ATOMIC_TOKEN(token) || token == TOKEN_LEFT_BRACE \
-    || token == TOKEN_LEFT_BRACKET)
-
+    #define VALUE_LEN_MAX 255
 typedef struct {
     token_type_e type;
-#define VALUE_LEN_MAX 255
     char value[VALUE_LEN_MAX + 1];
 } token_t;
 

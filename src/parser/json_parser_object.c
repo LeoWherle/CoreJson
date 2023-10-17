@@ -1,12 +1,19 @@
+/*
+** EPITECH PROJECT, 2023
+** CoreJson [WSL: fedora]
+** File description:
+** json_parser_object
+*/
+
 // malloc, free
 #include <stdlib.h>
 // memcpy
 #include <string.h>
 #include "corejson.h"
 
-static int _init_object_data(JSONValue *value, JSONObject **object)
+static int init_object_data(json_value_t *value, json_object_t **object)
 {
-    *object = malloc(sizeof(JSONObject));
+    *object = malloc(sizeof(json_object_t));
     if (*object == NULL) {
         DERR("malloc");
         free(*object);
@@ -21,7 +28,7 @@ static int _init_object_data(JSONValue *value, JSONObject **object)
     }
 }
 
-static int _get_key(JSONValue *value, char *key_buffer, const char **json)
+static int get_key(json_value_t *value, char *key_buffer, const char **json)
 {
     token_t token = {0};
 
@@ -37,10 +44,10 @@ static int _get_key(JSONValue *value, char *key_buffer, const char **json)
     }
 }
 
-static int _get_value_and_set_data(
-    JSONObject *object, JSONValue *value, char *key_buffer, const char **json)
+static int get_value_and_set_data(
+    json_object_t *object, json_value_t *value, char *key_buffer, const char **json)
 {
-    JSONValue *property = NULL;
+    json_value_t *property = NULL;
 
     property = parse_value(json);
     if (property == NULL) {
@@ -56,7 +63,7 @@ static int _get_value_and_set_data(
     return 0;
 }
 
-static int _object_has_no_data(JSONValue *value, const char **json)
+static int object_has_no_data(json_value_t *value, const char **json)
 {
     token_t token = {0};
 
@@ -75,7 +82,7 @@ static int _object_has_no_data(JSONValue *value, const char **json)
     }
 }
 
-static int _get_comma(JSONValue *value, const char **json)
+static int get_comma(json_value_t *value, const char **json)
 {
     token_t token = {0};
 
@@ -87,25 +94,24 @@ static int _get_comma(JSONValue *value, const char **json)
     return 0;
 }
 
-JSONValue *parse_object(const char **json, JSONValue *value)
+json_value_t *parse_object(const char **json, json_value_t *value)
 {
     char key_buffer[VALUE_LEN_MAX + 1] = {0};
-    JSONObject *object = NULL;
+    json_object_t *object = NULL;
 
-    if (_init_object_data(value, &object) != 0)
+    if (init_object_data(value, &object) != 0)
         return NULL;
     while (true) {
-        if (_get_key(value, key_buffer, json) != 0)
+        if (get_key(value, key_buffer, json) != 0)
             break;
-        if (_get_comma(value, json) != 0)
+        if (get_comma(value, json) != 0)
             break;
-        if (_get_value_and_set_data(object, value, key_buffer, json) != 0)
+        if (get_value_and_set_data(object, value, key_buffer, json) != 0)
             break;
-        if (_object_has_no_data(value, json) != 0)
+        if (object_has_no_data(value, json) != 0)
             break;
     }
     if (value->type == JSON_NULL) {
-        FLOG(stderr, "Error parsing object free memory\n");
         json_object_free(object);
         return NULL;
     }

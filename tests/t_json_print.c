@@ -14,7 +14,7 @@ Test(json_print, test_all, .init = redirect_all_output)
 {
     const char *json = "{\"name\": \"John\",\"age\": 30,\"isMarried\": true,"
                        "\"hobbies\": [\"reading\",\"swimming\"]}";
-    JSONValue *value = json_parse(json);
+    json_value_t *value = json_parse(json);
     if (value == NULL) {
         perror("Failed to parse JSON\n");
     }
@@ -27,7 +27,7 @@ Test(json_print, test_all_format, .init = redirect_all_output)
 {
     const char *json = "{\"name\": \"John\",\"age\": 30,\"isMarried\": true,"
                        "\"hobbies\": [\"reading\",\"swimming\"]}";
-    JSONValue *value = json_parse(json);
+    json_value_t *value = json_parse(json);
     if (value == NULL) {
         perror("Failed to parse JSON\n");
     }
@@ -47,7 +47,7 @@ Test(json_print, test_all_format, .init = redirect_all_output)
 Test(json_print, test_bool, .init = redirect_all_output)
 {
     const char *json = "true";
-    JSONValue *value = parse_value(&json);
+    json_value_t *value = parse_value(&json);
     if (value == NULL) {
         perror("Failed to parse JSON\n");
     }
@@ -59,7 +59,7 @@ Test(json_print, test_bool, .init = redirect_all_output)
 Test(json_print, test_bool_format, .init = redirect_all_output)
 {
     const char *json = "true";
-    JSONValue *value = parse_value(&json);
+    json_value_t *value = parse_value(&json);
     if (value == NULL) {
         perror("Failed to parse JSON\n");
     }
@@ -71,7 +71,7 @@ Test(json_print, test_bool_format, .init = redirect_all_output)
 Test(json_print, test_null, .init = redirect_all_output)
 {
     const char *json = "null";
-    JSONValue *value = parse_value(&json);
+    json_value_t *value = parse_value(&json);
     if (value == NULL) {
         perror("Failed to parse JSON\n");
     }
@@ -83,7 +83,7 @@ Test(json_print, test_null, .init = redirect_all_output)
 Test(json_print, test_null_format, .init = redirect_all_output)
 {
     const char *json = "null";
-    JSONValue *value = parse_value(&json);
+    json_value_t *value = parse_value(&json);
     if (value == NULL) {
         perror("Failed to parse JSON\n");
     }
@@ -95,7 +95,7 @@ Test(json_print, test_null_format, .init = redirect_all_output)
 Test(json_print, test_number, .init = redirect_all_output)
 {
     const char *json = "123";
-    JSONValue *value = parse_value(&json);
+    json_value_t *value = parse_value(&json);
     if (value == NULL) {
         perror("Failed to parse JSON\n");
     }
@@ -107,7 +107,7 @@ Test(json_print, test_number, .init = redirect_all_output)
 Test(json_print, test_number_format, .init = redirect_all_output)
 {
     const char *json = "123";
-    JSONValue *value = parse_value(&json);
+    json_value_t *value = parse_value(&json);
     if (value == NULL) {
         perror("Failed to parse JSON\n");
     }
@@ -119,7 +119,7 @@ Test(json_print, test_number_format, .init = redirect_all_output)
 Test(json_print, test_string, .init = redirect_all_output)
 {
     const char *json = "\"hello, world!\"";
-    JSONValue *value = parse_value(&json);
+    json_value_t *value = parse_value(&json);
     if (value == NULL) {
         perror("Failed to parse JSON\n");
     }
@@ -131,7 +131,7 @@ Test(json_print, test_string, .init = redirect_all_output)
 Test(json_print, test_string_format, .init = redirect_all_output)
 {
     const char *json = "\"hello, world!\"";
-    JSONValue *value = parse_value(&json);
+    json_value_t *value = parse_value(&json);
     if (value == NULL) {
         perror("Failed to parse JSON\n");
     }
@@ -143,7 +143,7 @@ Test(json_print, test_string_format, .init = redirect_all_output)
 Test(json_print, test_array, .init = redirect_all_output)
 {
     const char *json = "[1,2,3]";
-    JSONValue *value = parse_value(&json);
+    json_value_t *value = parse_value(&json);
     if (value == NULL) {
         perror("Failed to parse JSON\n");
     }
@@ -155,7 +155,7 @@ Test(json_print, test_array, .init = redirect_all_output)
 Test(json_print, test_array_format, .init = redirect_all_output)
 {
     const char *json = "[1, 2, 3]";
-    JSONValue *value = parse_value(&json);
+    json_value_t *value = parse_value(&json);
     if (value == NULL) {
         perror("Failed to parse JSON\n");
     }
@@ -171,7 +171,7 @@ Test(json_print, test_array_format, .init = redirect_all_output)
 Test(json_print, test_big_number, .init = redirect_all_output)
 {
     const char *json = "35678901234567600";
-    JSONValue *value = parse_value(&json);
+    json_value_t *value = parse_value(&json);
     if (value == NULL) {
         perror("Failed to parse JSON\n");
     }

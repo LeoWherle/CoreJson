@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2023
+** CoreJson [WSL: fedora]
+** File description:
+** json_builder
+*/
+
 // reallocarray
 #include <stdlib.h>
 // memcpy, strdup
@@ -22,15 +29,15 @@ static char *key_strdup(const char *s)
 }
 
 int object_data_add(
-    JSONObject *object, JSONValue *property, const char *key_buffer)
+    json_object_t *object, json_value_t *property, const char *key_buffer)
 {
     object->values =
-        reallocarray(object->values, (object->size + 1), sizeof(JSONValue));
+        reallocarray(object->values, (object->size + 1), sizeof(json_value_t));
     if (object->values == NULL) {
         DERR("reallocarray");
         return 1;
     }
-    memcpy(&object->values[object->size], property, sizeof(JSONValue));
+    memcpy(&object->values[object->size], property, sizeof(json_value_t));
     object->keys =
         reallocarray(object->keys, (object->size + 1), sizeof(char *));
     if (object->keys == NULL) {
@@ -45,15 +52,15 @@ int object_data_add(
     return 0;
 }
 
-int array_data_add(JSONArray *array, JSONValue *element)
+int array_data_add(json_array_t *array, json_value_t *element)
 {
     array->elements =
-        reallocarray(array->elements, (array->size + 1), sizeof(JSONValue));
+        reallocarray(array->elements, (array->size + 1), sizeof(json_value_t));
     if (array->elements == NULL) {
         DERR("reallocarray");
         return 1;
     }
-    memcpy(&array->elements[array->size], element, sizeof(JSONValue));
+    memcpy(&array->elements[array->size], element, sizeof(json_value_t));
     array->size++;
     return 0;
 }

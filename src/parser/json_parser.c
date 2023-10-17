@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2023
+** CoreJson [WSL: fedora]
+** File description:
+** json_parser
+*/
+
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -17,111 +24,104 @@ static parse_func_t parsefunc_table[] = {
     [TOKEN_LEFT_BRACKET] = jns_parse_array,
 };
 
-#ifdef DGPRINT
-    #define DGPRINT \
-        printf("token->value: %s\n\tnext-json: \"%s\"\n", token->value, *json);
-#else
-    #define DGPRINT 
-#endif
-
-int jns_parse_string(JSONValue *value, token_t *token, UNUSED const char **json)
+int jns_parse_string(
+    json_value_t *value, token_t *token, UNUSED const char **json)
 {
-    DGPRINT
     value->type = JSON_STRING;
     memcpy(value->string_value, token->value, sizeof(value->string_value));
     return 0;
 }
 
-int jns_parse_number(JSONValue *value, token_t *token, UNUSED const char **json)
+int jns_parse_number(
+    json_value_t *value, token_t *token, UNUSED const char **json)
 {
-    DGPRINT
     value->type = JSON_NUMBER;
     value->number_value = atof(token->value);
     return 0;
 }
 
 int jns_parse_true(
-    JSONValue *value, UNUSED token_t *token, UNUSED const char **json)
+    json_value_t *value, UNUSED token_t *token, UNUSED const char **json)
 {
-    DGPRINT
     value->type = JSON_TRUE;
     value->bool_value = true;
     return 0;
 }
 
 int jns_parse_false(
-    JSONValue *value, UNUSED token_t *token, UNUSED const char **json)
+    json_value_t *value, UNUSED token_t *token, UNUSED const char **json)
 {
-    DGPRINT
     value->type = JSON_FALSE;
     value->bool_value = false;
     return 0;
 }
 
 int jns_parse_null(
-    JSONValue *value, UNUSED token_t *token, UNUSED const char **json)
+    json_value_t *value, UNUSED token_t *token, UNUSED const char **json)
 {
-    DGPRINT
     value->type = JSON_NULL;
     return 0;
 }
 
-int jns_parse_object(JSONValue *value, UNUSED token_t *token, const char **json)
+int jns_parse_object(
+    json_value_t *value, UNUSED token_t *token, const char **json)
 {
-    DGPRINT
     value->type = JSON_OBJECT;
     value = parse_object(json, value);
     if (value == NULL) {
+        FLOG(stderr, "Failed to parse array\n");
         return 1;
     }
     if (value->object_value == NULL) {
+        FLOG(stderr, "Failed to parse array\n");
         return 1;
     }
     return 0;
 }
 
-int jns_parse_array(JSONValue *value, UNUSED token_t *token, const char **json)
+int jns_parse_array(
+    json_value_t *value, UNUSED token_t *token, const char **json)
 {
-    DGPRINT
     value->type = JSON_ARRAY;
     value = parse_array(json, value);
     if (value == NULL) {
+        FLOG(stderr, "Failed to parse array\n");
         return 1;
     }
     if (value->array_value == NULL) {
+        FLOG(stderr, "Failed to parse array\n");
         return 1;
     }
     return 0;
 }
 
-JSONValue *parse_value(const char **json)
+json_value_t *parse_value(const char **json)
 {
     token_t token = {0};
-    JSONValue *value = NULL;
+    json_value_t *value = NULL;
 
     next_token(json, &token);
-    value = malloc(sizeof(JSONValue));
+    value = malloc(sizeof(json_value_t));
     if (value == NULL) {
         DERR("malloc");
         return NULL;
     }
-    if (!IS_VALUE_TOKEN(token.type)) {
+    if (!IS_TOKN_VAL(token.type)) {
         FLOG(stderr, "Expected a valid value, got %s\n",
             token_type_get_string(token.type));
         free(value);
         return NULL;
     }
     if (parsefunc_table[token.type](value, &token, json) != 0) {
-        FLOG(stderr, "Error parsing value\n");
         free(value);
         return NULL;
     }
     return value;
 }
 
-JSONValue *json_parse(const char *json)
+json_value_t *json_parse(const char *json)
 {
-    JSONValue *value = NULL;
+    json_value_t *value = NULL;
 
     value = parse_value(&json);
     if (value == NULL) {

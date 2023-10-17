@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2023
+** CoreJson [WSL: fedora]
+** File description:
+** json_lexer
+*/
+
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -6,14 +13,7 @@
 #include <string.h>
 #include "corejson_lexer.h"
 
-static void skip_whitespace(const char **json)
-{
-    while (IS_WHITESPACE(**json)) {
-        (*json)++;
-    }
-}
-
-static token_t *_parse_string_data(
+static token_t *parse_string_data(
     const char **json, token_t *token, const char *start_pos)
 {
     size_t str_len = 0;
@@ -29,18 +29,17 @@ static token_t *_parse_string_data(
     return token;
 }
 
-static token_t *parse_string(const char **json, token_t *token)
+token_t *parse_string(const char **json, token_t *token)
 {
     const char *start_pos = NULL;
 
     token->type = TOKEN_STRING;
     token->value[0] = '\0';
-
     (*json)++;
     start_pos = *json;
     while (**json != '\0') {
         if (**json == '\"') {
-            token = _parse_string_data(json, token, start_pos);
+            token = parse_string_data(json, token, start_pos);
             return token;
         }
         (*json)++;
@@ -49,7 +48,7 @@ static token_t *parse_string(const char **json, token_t *token)
     return token;
 }
 
-static token_t *parse_number(const char **json, token_t *token)
+token_t *parse_number(const char **json, token_t *token)
 {
     uint32_t i = 0;
 
@@ -68,7 +67,7 @@ static token_t *parse_number(const char **json, token_t *token)
     return token;
 }
 
-static token_t *parse_char(const char **json, token_t *token, token_type_e type)
+token_t *parse_char(const char **json, token_t *token, token_type_e type)
 {
     token->type = type;
     *token->value = **json;
@@ -77,7 +76,7 @@ static token_t *parse_char(const char **json, token_t *token, token_type_e type)
     return token;
 }
 
-static token_t *parse_string_spec(
+token_t *parse_string_spec(
     const char **json, token_t *token, token_type_e type, const char *str)
 {
     size_t str_len = strlen(str);
@@ -91,25 +90,3 @@ static token_t *parse_string_spec(
     }
     return token;
 }
-
-token_t *next_token(const char **json, token_t *token)
-{
-    token->value[0] = '\0';
-    skip_whitespace(json);
-    switch (**json) {
-        case '\0': token->type = TOKEN_END; break;
-        case '{': parse_char(json, token, TOKEN_LEFT_BRACE); break;
-        case '}': parse_char(json, token, TOKEN_RIGHT_BRACE); break;
-        case '[': parse_char(json, token, TOKEN_LEFT_BRACKET); break;
-        case ']': parse_char(json, token, TOKEN_RIGHT_BRACKET); break;
-        case ':': parse_char(json, token, TOKEN_COLON); break;
-        case ',': parse_char(json, token, TOKEN_COMMA); break;
-        case 't': parse_string_spec(json, token, TOKEN_TRUE, "true"); break;
-        case 'f': parse_string_spec(json, token, TOKEN_FALSE, "false"); break;
-        case 'n': parse_string_spec(json, token, TOKEN_NULL, "null"); break;
-        case '\"': parse_string(json, token); break;
-        default: parse_number(json, token); break;
-    }
-    return token;
-}
-

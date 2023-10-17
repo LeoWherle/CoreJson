@@ -6,15 +6,16 @@
 */
 
 #ifndef COREJSON_H_
-#define COREJSON_H_
+    #define COREJSON_H_
 
-#include <stdbool.h>
-#include <stdint.h>
-#include "corejson_lexer.h"
+    #include <stdbool.h>
+    #include <stddef.h>
+    #include <stdint.h>
+    #include "corejson_lexer.h"
 
-typedef struct JSONValue JSONValue;
-typedef struct JSONObject JSONObject;
-typedef struct JSONArray JSONArray;
+typedef struct json_value_s json_value_t;
+typedef struct json_object_s json_object_t;
+typedef struct json_array_s json_array_t;
 
 typedef enum {
     JSON_STRING,
@@ -24,52 +25,52 @@ typedef enum {
     JSON_NULL,
     JSON_OBJECT,
     JSON_ARRAY
-} JSONValueType;
+} json_value_type;
 
-struct JSONValue {
-    JSONValueType type;
+struct json_value_s {
+    json_value_type type;
     union {
         char string_value[VALUE_LEN_MAX + 1];
         double number_value;
-        JSONObject *object_value;
-        JSONArray *array_value;
+        json_object_t *object_value;
+        json_array_t *array_value;
         bool bool_value;
     };
 };
 
-struct JSONObject {
-    JSONValue *values;
+struct json_object_s {
+    json_value_t *values;
     char **keys;
     size_t size;
 };
 
-struct JSONArray {
-    JSONValue *elements;
+struct json_array_s {
+    json_value_t *elements;
     size_t size;
 };
 
 /** PARSING **/
-JSONValue *json_parse(const char *json);
+json_value_t *json_parse(const char *json);
 
-JSONValue *parse_value(const char **json);
-JSONValue *parse_object(const char **json, JSONValue *jsonValue);
-JSONValue *parse_array(const char **json, JSONValue *jsonValue);
+json_value_t *parse_value(const char **json);
+json_value_t *parse_object(const char **json, json_value_t *jsonValue);
+json_value_t *parse_array(const char **json, json_value_t *jsonValue);
 
 /** CONSTRUCTORS **/
 int object_data_add(
-    JSONObject *object, JSONValue *property, const char *key_buffer);
-int array_data_add(JSONArray *array, JSONValue *element);
+    json_object_t *object, json_value_t *property, const char *key_buffer);
+int array_data_add(json_array_t *array, json_value_t *element);
 
 /** PRINT **/
-void json_print(JSONValue *jsonValue, bool format, int fd);
+void json_print(json_value_t *jsonValue, bool format, int fd);
 
-void json_print_value(JSONValue *jsonValue, uint32_t, bool format, int fd);
+void json_print_value(json_value_t *jsonValue, uint32_t, bool format, int fd);
 
 /** DESTRUCTORS **/
-void json_free(JSONValue *jsonValue);
+void json_free(json_value_t *jsonValue);
 
-void json_object_free(JSONObject *object);
-void json_array_free(JSONArray *array);
-void json_value_free(JSONValue *jsonValue);
+void json_object_free(json_object_t *object);
+void json_array_free(json_array_t *array);
+void json_value_free(json_value_t *jsonValue);
 
 #endif /* !COREJSON_H_ */

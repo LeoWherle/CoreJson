@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2023
+** CoreJson [WSL: fedora]
+** File description:
+** json_print
+*/
+
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -13,7 +20,7 @@ static void print_spaces(uint32_t depth, int fd)
 }
 
 static void json_array_print(
-    JSONArray *array, uint32_t depth, bool format, int fd)
+    json_array_t *array, uint32_t depth, bool format, int fd)
 {
     dprintf(fd, "[");
     if (format) {
@@ -38,7 +45,7 @@ static void json_array_print(
 }
 
 static void json_object_print(
-    JSONObject *object, uint32_t depth, bool format, int fd)
+    json_object_t *object, uint32_t depth, bool format, int fd)
 {
     dprintf(fd, "{");
     if (format) {
@@ -60,7 +67,7 @@ static void json_object_print(
     dprintf(fd, "}");
 }
 
-static void json_number_print(JSONValue *jsonValue, int fd)
+static void json_number_print(json_value_t *jsonValue, int fd)
 {
     // check if number is an integer
     if (jsonValue->number_value == (int) jsonValue->number_value) {
@@ -75,7 +82,7 @@ static void json_number_print(JSONValue *jsonValue, int fd)
     }
 }
 
-void json_print_value(JSONValue *jsonValue, uint32_t depth, bool format, int fd)
+void json_print_value(json_value_t *jsonValue, uint32_t depth, bool format, int fd)
 {
     switch (jsonValue->type) {
         case JSON_ARRAY:
@@ -96,7 +103,7 @@ void json_print_value(JSONValue *jsonValue, uint32_t depth, bool format, int fd)
     }
 }
 
-void json_print(JSONValue *jsonValue, bool format, int fd)
+void json_print(json_value_t *jsonValue, bool format, int fd)
 {
     json_print_value(jsonValue, 0, format, fd);
 }

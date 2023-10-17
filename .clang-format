@@ -22,7 +22,7 @@ Language: Cpp
 #--------#
 
 # F3 - Maximum columns count
-ColumnLimit: 80
+ColumnLimit: 79
 
 # F3 - Column limit wrapping for comments
 ReflowComments: true

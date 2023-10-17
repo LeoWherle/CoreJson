@@ -10,11 +10,12 @@
 
     #ifdef DEBUG
         #include <stdio.h>
-        #define FLOG(fstream, fmt, ...) \
-            fprintf(fstream, "%s:%d:%s(): " fmt "\n", __FILE__, \
-            __LINE__, __func__, ##__VA_ARGS__)
-        #define DERR(str) \
-            perror(str)
+        #define WHERE __FILE__, __LINE__, __func__
+        #define FM  "%s:%d:%s(): "
+        #define FLOG(f, ft, ...) fprintf(f, FM ft "\n", WHERE , ##__VA_ARGS__)
+        #undef WHERE
+        #undef FM
+        #define DERR(str) perror(str)
     #else
         #define FLOG(fmt, ...)
         #define DERR(str)

@@ -1,3 +1,9 @@
+/*
+** EPITECH PROJECT, 2023
+** CoreJson [WSL: fedora]
+** File description:
+** main
+*/
 
 #include <ctype.h>
 #include <fcntl.h>
@@ -68,7 +74,7 @@ int parse_and_print_file(const char *file, bool format, int fd)
     }
     json_str = json_str_o;
 
-    JSONValue *json = json_parse(json_str);
+    json_value_t *json = json_parse(json_str);
     if (json == NULL) {
         free(json_str_o);
         printf("Error: Failed to parse JSON\n");

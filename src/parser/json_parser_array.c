@@ -1,11 +1,18 @@
+/*
+** EPITECH PROJECT, 2023
+** CoreJson [WSL: fedora]
+** File description:
+** json_parser_array
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "corejson.h"
 
-static int _init_object_data(JSONValue *value, JSONArray **array)
+static int _init_object_data(json_value_t *value, json_array_t **array)
 {
-    *array = malloc(sizeof(JSONArray));
+    *array = malloc(sizeof(json_array_t));
     if (*array == NULL) {
         DERR("malloc");
         free(*array);
@@ -19,7 +26,7 @@ static int _init_object_data(JSONValue *value, JSONArray **array)
     }
 }
 
-static int _array_has_no_data(JSONValue *value, const char **json)
+static int _array_has_no_data(json_value_t *value, const char **json)
 {
     token_t token = {0};
 
@@ -39,9 +46,9 @@ static int _array_has_no_data(JSONValue *value, const char **json)
 }
 
 static int _get_value_and_set_data(
-    const char **json, JSONValue *value, JSONArray *array)
+    const char **json, json_value_t *value, json_array_t *array)
 {
-    JSONValue *element = NULL;
+    json_value_t *element = NULL;
 
     element = parse_value(json);
     if (element == NULL) {
@@ -58,9 +65,9 @@ static int _get_value_and_set_data(
     return 0;
 }
 
-JSONValue *parse_array(const char **json, JSONValue *value)
+json_value_t *parse_array(const char **json, json_value_t *value)
 {
-    JSONArray *array = NULL;
+    json_array_t *array = NULL;
 
     if (_init_object_data(value, &array) != 0) {
         return NULL;
