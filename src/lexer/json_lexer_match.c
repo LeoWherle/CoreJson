@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "corejson_internal.h"
+#include "corejson_lexer.h"
 
 static struct json_lexer_s lexer_table[] =
 {

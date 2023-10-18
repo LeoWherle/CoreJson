@@ -12,11 +12,19 @@
     #include <stdbool.h>
     #include <stddef.h>
     #include <stdint.h>
-    #include "corejson_lexer.h"
+
+    #ifndef UNUSED
+        #define UNUSED __attribute__((unused))
+    #endif
+
+    #ifndef ARRSIZE
+        #define ARRSIZE(arr) (sizeof(arr) / sizeof(arr[0]))
+    #endif
 
     #define NULL_STR "null"
     #define TRUE_STR "true"
     #define FALSE_STR "false"
+    #define VALUE_LEN_MAX 255
 // clang-format on
 
 typedef struct json_value_s json_value_t;

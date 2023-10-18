@@ -5,7 +5,7 @@
 ** jsn_tkn_comma
 */
 
-#include "corejson_internal.h"
+#include "corejson_lexer.h"
 
 void jsn_token_null(const char **json, token_t *token)
 {

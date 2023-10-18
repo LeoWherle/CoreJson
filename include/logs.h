@@ -6,6 +6,7 @@
 */
 
 #ifndef LOGS_H_
+// clang-format off
     #define LOGS_H_
 
     #ifdef DEBUG
@@ -20,5 +21,6 @@
         #define FLOG(fmt, ...)
         #define DERR(str)
     #endif
+// clang-format on
 
 #endif /* !LOGS_H_ */

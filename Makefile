@@ -16,7 +16,7 @@ RED = \033[0;31m
 GREEN = \033[0;32m
 YELLOW = \033[0;33m
 BLUE = \033[0;34m
-PURPLE = \033[0;35m
+PURPLE = \033[1;35m
 CYAN = \033[0;36m
 WHITE = \033[0;37m
 NC = \033[0m
@@ -76,6 +76,7 @@ DEPDIR := $(BUILD_DIR)/dep
 
 # object files, auto generated from source files
 OBJS := $(patsubst %,$(OBJDIR)/%.o,$(basename $(SRCS)))
+OBJS_NO_MAIN := $(patsubst %,$(OBJDIR)/%.o,$(basename $(SRC)))
 OBJS_TEST := $(patsubst %,$(OBJDIR)/%.o,$(basename $(SRC_TEST)))
 # dependency files, auto generated from source files
 DEPS := $(patsubst %,$(DEPDIR)/%.d,$(basename $(SRCS)))
@@ -185,7 +186,7 @@ $(TEST_BIN): LDLIBS += -lcriterion -lgcov
 $(TEST_BIN): LDFLAGS += --coverage
 $(TEST_BIN): $(SRC_TEST)
 	@$(LD) $(LDFLAGS) $(LDLIBS) $(CFLAGS) -o $@ $^
-	@echo -e "$(GREEN)linked\t$(WHITE)$<$(NC), \
+	@echo -e "$(GREEN)linked\t$(WHITE)$@$(NC), \
 	with CFLAGS: $(CYAN)$(CFLAGS)$(NC) \
 	and LIB: $(YELLOW)$(LDLIBS)$(NC) \
 	and LDFLAGS: $(BLUE)$(LDFLAGS)$(NC)"
@@ -197,25 +198,31 @@ tests_run:
 
 $(BIN): $(OBJS)
 	@$(LD) $(LDFLAGS) $(LDLIBS) -o $@ $^
-	@echo -e "$(GREEN)linked\t$(WHITE)$<$(NC), \
+	@echo -e "$(GREEN)linked\t$(WHITE)$@$(NC), \
 	with CFLAGS: $(CYAN)$(CFLAGS)$(NC) \
 	and LIB: $(YELLOW)$(LDLIBS)$(NC) \
 	and LDFLAGS: $(BLUE)$(LDFLAGS)$(NC)"
 
 
-$(LIBBIN): $(OBJS)
-	ar rcs $(LIBBIN) $^
+$(LIBBIN): $(OBJS_NO_MAIN)
+	@ar rcs $(LIBBIN) $^
+	@echo -e "$(GREEN)linked\t$(WHITE)$@$(NC), \
+	with CFLAGS: $(CYAN)$(CFLAGS)$(NC) \
+	and LIB: $(YELLOW)$(LDLIBS)$(NC) \
+	and LDFLAGS: $(BLUE)$(LDFLAGS)$(NC)"
 
 $(LIBSHAREDBIN): CFLAGS += -fPIC
 $(LIBSHAREDBIN): LDFLAGS += -shared
-$(LIBSHAREDBIN): $(OBJS)
-	@$(LD) $(LDFLAGS) $(LDLIBS) -o $@ $^
-	@echo -e "$(GREEN)linked\t$(WHITE)$<$(NC), \
-	with CFLAGS: $(CYAN)$(CFLAGS)$(NC) \
-	and LIB: $(YELLOW)$(LDLIBS)$(NC) \
-	and LDFLAGS: $(BLUE)$(LDFLAGS)$(NC)"
-
-
+$(LIBSHAREDBIN): $(OBJS_NO_MAIN)
+	@if $(LD) $(LDFLAGS) $(LDLIBS) -o $@ $^; then \
+		echo -e "$(GREEN)linked\t$(WHITE)$@$(NC), \
+		with CFLAGS: $(CYAN)$(CFLAGS)$(NC) \
+		and LIB: $(YELLOW)$(LDLIBS)$(NC) \
+		and LDFLAGS: $(BLUE)$(LDFLAGS)$(NC)"; \
+	else \
+		echo -e "$(RED)failed\t$(WHITE)$@$(NC) \
+		$(PURPLE)make fclean and try again$(NC)"; \
+	fi
 .PHONY: gen_version
 gen_version:
 	@echo "#ifndef VERSION_H" > include/version.h

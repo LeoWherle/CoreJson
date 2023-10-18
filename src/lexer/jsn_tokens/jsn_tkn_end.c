@@ -5,7 +5,7 @@
 ** jsn_tkn_end
 */
 
-#include "corejson_internal.h"
+#include "corejson_lexer.h"
 
 void jsn_token_end(UNUSED const char **json, token_t *token)
 {
