@@ -15,13 +15,14 @@
     #define ARRSIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
 // typedef function pointer example
-
+/** Lexer handle **/
+typedef void (*json_lexer_func_t)(const char **json, token_t *token);
+/** Parser handle **/
 typedef int (*parse_func_t)(json_value_t *val, token_t *par, const char **jsn);
-
-
+/** Printer handle **/
 typedef void (*json_print_func_t)(
     json_value_t *val, uint32_t depth, bool format, int fd);
-typedef void (*json_lexer_func_t)(const char **json, token_t *token);
+
 
 struct json_lexer_s {
     char charcter;
@@ -70,9 +71,20 @@ int jns_parse_array(
 
 
 /** PRINTER **/
-void json_object_print(
-    json_object_t *object, uint32_t depth, bool format, int fd);
+void jns_object_print(
+    json_value_t *value, uint32_t depth, bool format, int fd);
+void jns_array_print(
+    json_value_t *value, uint32_t depth, bool format, int fd);
+void jns_number_print(
+    json_value_t *value, uint32_t depth, bool format, int fd);
+void jns_bool_print(
+    json_value_t *value, uint32_t depth, bool format, int fd);
+void jns_string_print(
+    json_value_t *value, uint32_t depth, bool format, int fd);
+void jns_null_print(
+    json_value_t *value, uint32_t depth, bool format, int fd);
 
+void print_spaces(uint32_t depth, int fd, bool format);
 
 /** MARVIN **/
     #define LEXER_VALUE_END '\0', jsn_token_end

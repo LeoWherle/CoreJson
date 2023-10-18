@@ -44,8 +44,8 @@ static int get_key(json_value_t *value, char *key_buffer, const char **json)
     }
 }
 
-static int get_value_and_set_data(
-    json_object_t *object, json_value_t *value, char *key_buffer, const char **json)
+static int get_value_and_set_data(json_object_t *object, json_value_t *value,
+    char *key_buffer, const char **json)
 {
     json_value_t *property = NULL;
 

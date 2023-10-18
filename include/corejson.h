@@ -13,6 +13,10 @@
     #include <stdint.h>
     #include "corejson_lexer.h"
 
+    #define NULL_STR "null"
+    #define TRUE_STR "true"
+    #define FALSE_STR "false"
+
 typedef struct json_value_s json_value_t;
 typedef struct json_object_s json_object_t;
 typedef struct json_array_s json_array_t;
@@ -26,6 +30,8 @@ typedef enum {
     JSON_OBJECT,
     JSON_ARRAY
 } json_value_type;
+
+    #define IS_JSON_VALUE(t) (t >= JSON_STRING && t <= JSON_ARRAY)
 
 struct json_value_s {
     json_value_type type;

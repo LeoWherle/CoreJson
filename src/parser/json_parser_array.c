@@ -10,7 +10,7 @@
 #include <string.h>
 #include "corejson.h"
 
-static int _init_object_data(json_value_t *value, json_array_t **array)
+static int init_object_data(json_value_t *value, json_array_t **array)
 {
     *array = malloc(sizeof(json_array_t));
     if (*array == NULL) {
@@ -26,7 +26,7 @@ static int _init_object_data(json_value_t *value, json_array_t **array)
     }
 }
 
-static int _array_has_no_data(json_value_t *value, const char **json)
+static int array_has_no_data(json_value_t *value, const char **json)
 {
     token_t token = {0};
 
@@ -45,7 +45,7 @@ static int _array_has_no_data(json_value_t *value, const char **json)
     }
 }
 
-static int _get_value_and_set_data(
+static int get_value_and_set_data(
     const char **json, json_value_t *value, json_array_t *array)
 {
     json_value_t *element = NULL;
@@ -69,13 +69,13 @@ json_value_t *parse_array(const char **json, json_value_t *value)
 {
     json_array_t *array = NULL;
 
-    if (_init_object_data(value, &array) != 0) {
+    if (init_object_data(value, &array) != 0) {
         return NULL;
     }
     while (true) {
-        if (_get_value_and_set_data(json, value, array) != 0)
+        if (get_value_and_set_data(json, value, array) != 0)
             break;
-        if (_array_has_no_data(value, json) != 0)
+        if (array_has_no_data(value, json) != 0)
             break;
     }
     if (value->type == JSON_NULL) {

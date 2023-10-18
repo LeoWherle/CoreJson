@@ -28,32 +28,3 @@ const char *token_type_get_string(token_type_e type)
 {
     return token_type_string[type];
 }
-
-void jsn_token_string(const char **json, token_t *token)
-{
-    parse_string(json, token);
-}
-
-void jsn_token_number(const char **json, token_t *token)
-{
-    parse_number(json, token);
-}
-
-void jsn_token_true(const char **json, token_t *token)
-{
-    parse_string_spec(json, token, TOKEN_TRUE, "true");
-}
-
-void jsn_token_false(const char **json, token_t *token)
-{
-    parse_string_spec(json, token, TOKEN_FALSE, "false");
-}
-void jsn_token_colon(const char **json, token_t *token)
-{
-    parse_char(json, token, TOKEN_COLON);
-}
-
-void jsn_token_comma(const char **json, token_t *token)
-{
-    parse_char(json, token, TOKEN_COMMA);
-}
