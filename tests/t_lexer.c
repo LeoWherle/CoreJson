@@ -1,5 +1,5 @@
 #include <criterion/criterion.h>
-#include "corejson.h"
+#include "corejson_internal.h"
 
 Test(json_lexer, test_next_token_number)
 {

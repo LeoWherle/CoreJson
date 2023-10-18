@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
-#include "corejson.h"
+#include "corejson_internal.h"
 
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
