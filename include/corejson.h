@@ -52,7 +52,7 @@ struct json_value_s {
         double number_value;
         json_object_t *object_value;
         json_array_t *array_value;
-        bool bool_value;
+        int bool_value;
     };
 };
 
@@ -124,10 +124,11 @@ int jsn_array_data_add(json_array_t *array, json_value_t *element);
  * parent json value must be a json object or a json array
  *
  * @param json the json value to print
- * @param format if true, print with indentation (4 spaces)
+ * @param format if 0 don't format, if format > 0 format using (format * 2) as
+ * the number of spaces to indent
  * @param fd the file descriptor to print to (can be STDOUT_FILENO)
  */
-void jsn_print(json_value_t *json, bool format, int fd);
+void jsn_print(json_value_t *json, uint32_t format, int fd);
 
 /***************************** DESTRUCTORS ***********************************/
 

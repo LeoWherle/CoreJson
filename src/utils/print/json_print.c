@@ -20,18 +20,19 @@ static const json_print_func_t json_print_funcs[] = {
     [JSON_NULL] = &jsn_null_print,
 };
 
-void print_spaces(uint32_t depth, int fd, bool format)
+void print_spaces(uint32_t depth, int fd, uint32_t format)
 {
-    if (!format) {
-        return;
-    }
-    for (uint32_t i = 0; i < depth; i++) {
+    uint32_t i = 0;
+    uint32_t j = 0;
+
+    for (i = 0; i < depth; i++) {
+        for (j = 0; j < format; j++)
         dprintf(fd, "  ");
     }
 }
 
 void jsn_value_print(
-    json_value_t *jsonValue, uint32_t depth, bool format, int fd)
+    json_value_t *jsonValue, uint32_t depth, uint32_t format, int fd)
 {
     if (jsonValue == NULL) {
         return;
@@ -43,7 +44,7 @@ void jsn_value_print(
     }
 }
 
-void jsn_print(json_value_t *jsonValue, bool format, int fd)
+void jsn_print(json_value_t *jsonValue, uint32_t format, int fd)
 {
     jsn_value_print(jsonValue, 0, format, fd);
 }

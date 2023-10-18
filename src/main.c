@@ -58,7 +58,7 @@ int read_json_file(const char *filename, char **json_str)
     return 0;
 }
 
-int print_json(const char *json_str, bool format, int fd)
+int print_json(const char *json_str, uint32_t format, int fd)
 {
     json_value_t *json = NULL;
 
@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
     if (read_json_file(argv[1], &json_str) != 0) {
         return 1;
     }
-    ret = print_json(json_str, true, STDOUT_FILENO);
+    ret = print_json(json_str, 2, STDOUT_FILENO);
     free(json_str);
     return ret;
 }

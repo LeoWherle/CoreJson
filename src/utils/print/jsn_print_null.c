@@ -9,7 +9,7 @@
 #include "corejson_internal.h"
 
 void jsn_null_print(UNUSED json_value_t *value, UNUSED uint32_t depth,
-    UNUSED bool format, int fd)
+    UNUSED uint32_t format, int fd)
 {
     dprintf(fd, NULL_STR);
 }

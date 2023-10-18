@@ -15,7 +15,7 @@
 
 /** Printer handle **/
 typedef void (*json_print_func_t)(
-    json_value_t *val, uint32_t depth, bool format, int fd);
+    json_value_t *val, uint32_t depth, uint32_t format, int fd);
 
 struct json_object_s {
     json_value_t *values;
@@ -30,17 +30,17 @@ struct json_array_s {
 
 /** PRINTER **/
 void jsn_object_print(
-    json_value_t *value, uint32_t depth, bool format, int fd);
-void jsn_array_print(json_value_t *value, uint32_t depth, bool format, int fd);
+    json_value_t *value, uint32_t depth, uint32_t format, int fd);
+void jsn_array_print(json_value_t *value, uint32_t depth, uint32_t format, int fd);
 void jsn_number_print(
-    json_value_t *value, uint32_t depth, bool format, int fd);
-void jsn_bool_print(json_value_t *value, uint32_t depth, bool format, int fd);
+    json_value_t *value, uint32_t depth, uint32_t format, int fd);
+void jsn_bool_print(json_value_t *value, uint32_t depth, uint32_t format, int fd);
 void jsn_string_print(
-    json_value_t *value, uint32_t depth, bool format, int fd);
-void jsn_null_print(json_value_t *value, uint32_t depth, bool format, int fd);
+    json_value_t *value, uint32_t depth, uint32_t format, int fd);
+void jsn_null_print(json_value_t *value, uint32_t depth, uint32_t format, int fd);
 
-void print_spaces(uint32_t depth, int fd, bool format);
-void jsn_value_print(json_value_t *jsonValue, uint32_t, bool format, int fd);
+void print_spaces(uint32_t depth, int fd, uint32_t format);
+void jsn_value_print(json_value_t *jsonValue, uint32_t, uint32_t format, int fd);
 
 /** FREE **/
 void json_object_free(json_object_t *object);

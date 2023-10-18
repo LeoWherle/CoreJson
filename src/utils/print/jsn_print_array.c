@@ -8,7 +8,8 @@
 #include <stdio.h>
 #include "corejson_internal.h"
 
-void jsn_array_print(json_value_t *value, uint32_t depth, bool format, int fd)
+void jsn_array_print(
+    json_value_t *value, uint32_t depth, uint32_t format, int fd)
 {
     json_array_t *array = value->array_value;
 

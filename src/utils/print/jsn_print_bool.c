@@ -9,7 +9,7 @@
 #include "corejson_internal.h"
 
 void jsn_bool_print(
-    json_value_t *value, UNUSED uint32_t depth, UNUSED bool format, int fd)
+    json_value_t *value, UNUSED uint32_t depth, UNUSED uint32_t format, int fd)
 {
     dprintf(fd, "%s", value->bool_value ? TRUE_STR : FALSE_STR);
 }

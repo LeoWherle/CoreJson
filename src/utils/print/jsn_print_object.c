@@ -9,7 +9,7 @@
 #include "corejson_internal.h"
 
 void jsn_object_print(
-    json_value_t *value, uint32_t depth, bool format, int fd)
+    json_value_t *value, uint32_t depth, uint32_t format, int fd)
 {
     json_object_t *object = value->object_value;
 
