@@ -16,5 +16,7 @@ include/version.h
 .vscode/
 .idea/
 
+*.log
+
 assets/
 
