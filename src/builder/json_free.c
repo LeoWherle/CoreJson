@@ -6,12 +6,12 @@
 */
 
 #include <stdlib.h>
-#include "corejson.h"
+#include "corejson_internal.h"
 
 void json_array_free(json_array_t *array)
 {
     for (uint32_t i = 0; i < array->size; i++) {
-        json_value_free(&array->elements[i]);
+        jsn_value_free(&array->elements[i]);
     }
     free(array->elements);
     free(array);
@@ -20,7 +20,7 @@ void json_array_free(json_array_t *array)
 void json_object_free(json_object_t *object)
 {
     for (uint32_t i = 0; i < object->size; i++) {
-        json_value_free(&object->values[i]);
+        jsn_value_free(&object->values[i]);
         free(object->keys[i]);
     }
     free(object->values);
@@ -28,7 +28,7 @@ void json_object_free(json_object_t *object)
     free(object);
 }
 
-void json_value_free(json_value_t *jsonValue)
+void jsn_value_free(json_value_t *jsonValue)
 {
     if (jsonValue == NULL) {
         return;
@@ -50,8 +50,8 @@ void json_value_free(json_value_t *jsonValue)
     }
 }
 
-void json_free(json_value_t *jsonValue)
+void jsn_free(json_value_t *jsonValue)
 {
-    json_value_free(jsonValue);
+    jsn_value_free(jsonValue);
     free(jsonValue);
 }

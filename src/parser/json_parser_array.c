@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "corejson.h"
+#include "corejson_internal.h"
 
 static int init_object_data(json_value_t *value, json_array_t **array)
 {
@@ -50,14 +50,14 @@ static int get_value_and_set_data(
 {
     json_value_t *element = NULL;
 
-    element = parse_value(json);
+    element = jsn_parse_value(json);
     if (element == NULL) {
-        json_value_free(element);
+        jsn_value_free(element);
         value->type = JSON_NULL;
         return 1;
     }
-    if (array_data_add(array, element) != 0) {
-        json_free(element);
+    if (jsn_array_data_add(array, element) != 0) {
+        jsn_free(element);
         value->type = JSON_NULL;
         return 1;
     }
@@ -65,7 +65,7 @@ static int get_value_and_set_data(
     return 0;
 }
 
-json_value_t *parse_array(const char **json, json_value_t *value)
+json_value_t *jsn_parse_array(const char **json, json_value_t *value)
 {
     json_array_t *array = NULL;
 

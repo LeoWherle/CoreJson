@@ -11,13 +11,13 @@
 #include "corejson_internal.h"
 
 static const json_print_func_t json_print_funcs[] = {
-    [JSON_ARRAY] = &jns_array_print,
-    [JSON_OBJECT] = &jns_object_print,
-    [JSON_NUMBER] = &jns_number_print,
-    [JSON_FALSE] = &jns_bool_print,
-    [JSON_TRUE] = &jns_bool_print,
-    [JSON_STRING] = &jns_string_print,
-    [JSON_NULL] = &jns_null_print,
+    [JSON_ARRAY] = &jsn_array_print,
+    [JSON_OBJECT] = &jsn_object_print,
+    [JSON_NUMBER] = &jsn_number_print,
+    [JSON_FALSE] = &jsn_bool_print,
+    [JSON_TRUE] = &jsn_bool_print,
+    [JSON_STRING] = &jsn_string_print,
+    [JSON_NULL] = &jsn_null_print,
 };
 
 void print_spaces(uint32_t depth, int fd, bool format)
@@ -30,7 +30,7 @@ void print_spaces(uint32_t depth, int fd, bool format)
     }
 }
 
-void json_print_value(
+void jsn_value_print(
     json_value_t *jsonValue, uint32_t depth, bool format, int fd)
 {
     if (jsonValue == NULL) {
@@ -43,7 +43,7 @@ void json_print_value(
     }
 }
 
-void json_print(json_value_t *jsonValue, bool format, int fd)
+void jsn_print(json_value_t *jsonValue, bool format, int fd)
 {
-    json_print_value(jsonValue, 0, format, fd);
+    jsn_value_print(jsonValue, 0, format, fd);
 }

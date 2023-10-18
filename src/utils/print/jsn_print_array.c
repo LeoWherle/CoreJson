@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include "corejson_internal.h"
 
-void jns_array_print(json_value_t *value, uint32_t depth, bool format, int fd)
+void jsn_array_print(json_value_t *value, uint32_t depth, bool format, int fd)
 {
     json_array_t *array = value->array_value;
 
@@ -20,7 +20,7 @@ void jns_array_print(json_value_t *value, uint32_t depth, bool format, int fd)
     }
     for (uint32_t i = 0; i < array->size; i++) {
         print_spaces(depth + 1, fd, format);
-        json_print_value(&array->elements[i], depth + 1, format, fd);
+        jsn_value_print(&array->elements[i], depth + 1, format, fd);
         if (i < array->size - 1) {
             dprintf(fd, ",");
         }

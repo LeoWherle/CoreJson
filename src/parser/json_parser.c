@@ -11,16 +11,16 @@
 #include "corejson_internal.h"
 
 static parse_func_t parsefunc_table[] = {
-    [TOKEN_STRING] = jns_parse_string,
-    [TOKEN_NUMBER] = jns_parse_number,
-    [TOKEN_TRUE] = jns_parse_true,
-    [TOKEN_FALSE] = jns_parse_false,
-    [TOKEN_NULL] = jns_parse_null,
-    [TOKEN_LEFT_BRACE] = jns_parse_object,
-    [TOKEN_LEFT_BRACKET] = jns_parse_array,
+    [TOKEN_STRING] = jsn_tkn_parse_string,
+    [TOKEN_NUMBER] = jsn_tkn_parse_number,
+    [TOKEN_TRUE] = jsn_tkn_parse_true,
+    [TOKEN_FALSE] = jsn_tkn_parse_false,
+    [TOKEN_NULL] = jsn_tkn_parse_null,
+    [TOKEN_LEFT_BRACE] = jsn_tkn_parse_object,
+    [TOKEN_LEFT_BRACKET] = jsn_tkn_parse_array,
 };
 
-json_value_t *parse_value(const char **json)
+json_value_t *jsn_parse_value(const char **json)
 {
     token_t token = {0};
     json_value_t *value = NULL;
@@ -44,16 +44,16 @@ json_value_t *parse_value(const char **json)
     return value;
 }
 
-json_value_t *json_parse(const char *json)
+json_value_t *jsn_parse(const char *json)
 {
     json_value_t *value = NULL;
 
-    value = parse_value(&json);
+    value = jsn_parse_value(&json);
     if (value == NULL) {
         return NULL;
     }
     if (value->type != JSON_OBJECT) {
-        json_free(value);
+        jsn_free(value);
         return NULL;
     }
     return value;

@@ -7,11 +7,11 @@
 
 #include "corejson_internal.h"
 
-int jns_parse_object(
+int jsn_tkn_parse_object(
     json_value_t *value, UNUSED token_t *token, const char **json)
 {
     value->type = JSON_OBJECT;
-    value = parse_object(json, value);
+    value = jsn_parse_object(json, value);
     if (value == NULL) {
         FLOG(stderr, "Failed to parse array\n");
         return 1;

@@ -29,6 +29,18 @@ struct json_lexer_s {
     json_lexer_func_t func_table;
 };
 
+struct json_object_s {
+    json_value_t *values;
+    char **keys;
+    size_t size;
+};
+
+struct json_array_s {
+    json_value_t *elements;
+    size_t size;
+};
+
+
 /** HELPER **/
 token_t *parse_string(const char **json, token_t *token);
 token_t *parse_number(const char **json, token_t *token);
@@ -54,37 +66,44 @@ void jsn_token_number(const char **json, token_t *token);
 
 
 /** PARSER */
-int jns_parse_string(
+int jsn_tkn_parse_string(
     json_value_t *value, token_t *token, UNUSED const char **json);
-int jns_parse_number(
+int jsn_tkn_parse_number(
     json_value_t *value, token_t *token, UNUSED const char **json);
-int jns_parse_true(
+int jsn_tkn_parse_true(
     json_value_t *value, UNUSED token_t *token, UNUSED const char **json);
-int jns_parse_false(
+int jsn_tkn_parse_false(
     json_value_t *value, UNUSED token_t *token, UNUSED const char **json);
-int jns_parse_null(
+int jsn_tkn_parse_null(
     json_value_t *value, UNUSED token_t *token, UNUSED const char **json);
-int jns_parse_object(
+int jsn_tkn_parse_object(
     json_value_t *value, UNUSED token_t *token, const char **json);
-int jns_parse_array(
+int jsn_tkn_parse_array(
     json_value_t *value, UNUSED token_t *token, const char **json);
 
 
 /** PRINTER **/
-void jns_object_print(
+void jsn_object_print(
     json_value_t *value, uint32_t depth, bool format, int fd);
-void jns_array_print(
+void jsn_array_print(
     json_value_t *value, uint32_t depth, bool format, int fd);
-void jns_number_print(
+void jsn_number_print(
     json_value_t *value, uint32_t depth, bool format, int fd);
-void jns_bool_print(
+void jsn_bool_print(
     json_value_t *value, uint32_t depth, bool format, int fd);
-void jns_string_print(
+void jsn_string_print(
     json_value_t *value, uint32_t depth, bool format, int fd);
-void jns_null_print(
+void jsn_null_print(
     json_value_t *value, uint32_t depth, bool format, int fd);
 
 void print_spaces(uint32_t depth, int fd, bool format);
+void jsn_value_print(json_value_t *jsonValue, uint32_t, bool format, int fd);
+
+
+/** FREE **/
+void json_object_free(json_object_t *object);
+void json_array_free(json_array_t *array);
+
 
 /** MARVIN **/
     #define LEXER_VALUE_END '\0', jsn_token_end

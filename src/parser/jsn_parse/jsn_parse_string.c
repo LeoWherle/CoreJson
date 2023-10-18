@@ -8,7 +8,7 @@
 #include <string.h>
 #include "corejson_internal.h"
 
-int jns_parse_string(
+int jsn_tkn_parse_string(
     json_value_t *value, token_t *token, UNUSED const char **json)
 {
     value->type = JSON_STRING;

@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include "corejson_internal.h"
 
-void jns_object_print(
+void jsn_object_print(
     json_value_t *value, uint32_t depth, bool format, int fd)
 {
     json_object_t *object = value->object_value;
@@ -21,7 +21,7 @@ void jns_object_print(
     for (uint32_t i = 0; i < object->size; i++) {
         print_spaces(depth + 1, fd, format);
         dprintf(fd, "\"%s\": ", object->keys[i]);
-        json_print_value(&object->values[i], depth + 1, format, fd);
+        jsn_value_print(&object->values[i], depth + 1, format, fd);
         if (i < object->size - 1) {
             dprintf(fd, ",");
         }

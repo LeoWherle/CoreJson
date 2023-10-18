@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include "corejson_internal.h"
 
-void jns_number_print(
+void jsn_number_print(
     json_value_t *jsonValue, UNUSED uint32_t depth, UNUSED bool format, int fd)
 {
     if (jsonValue->number_value == (int) jsonValue->number_value) {

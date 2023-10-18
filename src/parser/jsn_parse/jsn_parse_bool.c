@@ -7,7 +7,7 @@
 
 #include "corejson_internal.h"
 
-int jns_parse_true(
+int jsn_tkn_parse_true(
     json_value_t *value, UNUSED token_t *token, UNUSED const char **json)
 {
     value->type = JSON_TRUE;
@@ -15,7 +15,7 @@ int jns_parse_true(
     return 0;
 }
 
-int jns_parse_false(
+int jsn_tkn_parse_false(
     json_value_t *value, UNUSED token_t *token, UNUSED const char **json)
 {
     value->type = JSON_FALSE;

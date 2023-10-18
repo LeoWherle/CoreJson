@@ -11,7 +11,7 @@
 #include <string.h>
 // DERR
 #include <stdio.h>
-#include "corejson.h"
+#include "corejson_internal.h"
 
 static char *key_strdup(const char *s)
 {
@@ -28,7 +28,7 @@ static char *key_strdup(const char *s)
     return new;
 }
 
-int object_data_add(
+int jsn_object_data_add(
     json_object_t *object, json_value_t *property, const char *key_buffer)
 {
     object->values =
@@ -52,7 +52,7 @@ int object_data_add(
     return 0;
 }
 
-int array_data_add(json_array_t *array, json_value_t *element)
+int jsn_array_data_add(json_array_t *array, json_value_t *element)
 {
     array->elements =
         reallocarray(array->elements, (array->size + 1), sizeof(json_value_t));

@@ -9,7 +9,7 @@
 #include <stdlib.h>
 // memcpy
 #include <string.h>
-#include "corejson.h"
+#include "corejson_internal.h"
 
 static int init_object_data(json_value_t *value, json_object_t **object)
 {
@@ -49,12 +49,12 @@ static int get_value_and_set_data(json_object_t *object, json_value_t *value,
 {
     json_value_t *property = NULL;
 
-    property = parse_value(json);
+    property = jsn_parse_value(json);
     if (property == NULL) {
         value->type = JSON_NULL;
         return 1;
     }
-    if (object_data_add(object, property, key_buffer) != 0) {
+    if (jsn_object_data_add(object, property, key_buffer) != 0) {
         free(property);
         value->type = JSON_NULL;
         return 1;
@@ -94,7 +94,7 @@ static int get_comma(json_value_t *value, const char **json)
     return 0;
 }
 
-json_value_t *parse_object(const char **json, json_value_t *value)
+json_value_t *jsn_parse_object(const char **json, json_value_t *value)
 {
     char key_buffer[VALUE_LEN_MAX + 1] = {0};
     json_object_t *object = NULL;

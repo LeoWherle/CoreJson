@@ -62,17 +62,17 @@ int print_json(const char *json_str, bool format, int fd)
 {
     json_value_t *json = NULL;
 
-    json = json_parse(json_str);
+    json = jsn_parse(json_str);
     if (json == NULL) {
         fprintf(stderr, "Error: Failed to parse JSON\n");
         return 1;
     } else if (json->type != JSON_OBJECT && json->type != JSON_ARRAY) {
         fprintf(stderr, "Error: Invalid JSON\n");
-        json_free(json);
+        jsn_free(json);
         return 1;
     }
-    json_print(json, format, fd);
-    json_free(json);
+    jsn_print(json, format, fd);
+    jsn_free(json);
     return 0;
 }
 
