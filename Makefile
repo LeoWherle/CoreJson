@@ -225,7 +225,7 @@ $(LIBSHAREDBIN): $(OBJS_NO_MAIN)
 	@if $(LD) $(LDFLAGS) $(LDLIBS) -o $@ $^; then \
 		echo -e "$(GREEN)linked\t$(WHITE)$@$(NC), \
 		with CFLAGS: $(CYAN)$(CFLAGS)$(NC) \
-		and LIB: $(YELLOW)$(LDLIBS)$(NC) \ù
+		and LIB: $(YELLOW)$(LDLIBS)$(NC) \
 		and LDFLAGS: $(BLUE)$(LDFLAGS)$(NC)"; \
 	else \
 		echo -e "$(RED)failed\t$(WHITE)$@$(NC) \
