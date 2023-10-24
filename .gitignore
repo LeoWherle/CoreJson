@@ -7,7 +7,7 @@
 
 build/
 
-corejson
+jsonparse
 libcorejson*
 unit_tests
 

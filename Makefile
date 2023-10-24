@@ -6,7 +6,7 @@
 ##
 
 # output binary
-BIN := corejson
+BIN := jsonparse
 LIBBIN := libcorejson.a
 LIBSHAREDBIN := libcorejson.so
 TEST_BIN := unit_tests
