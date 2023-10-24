@@ -8,23 +8,54 @@
 #include <stdlib.h>
 #include "corejson_internal.h"
 
-void json_array_free(json_array_t *array)
+static void jsn_array_values_free(json_array_t *array)
 {
-    for (uint32_t i = 0; i < array->size; i++) {
-        jsn_value_free(&array->elements[i]);
+    uint32_t i = 0;
+
+    if (array == NULL) {
+        return;
+    }
+    for (; i < array->size; i++) {
+        if (array->elements != NULL) {
+            jsn_value_free(&array->elements[i]);
+        }
     }
     free(array->elements);
+    array->elements = NULL;
+    array->size = 0;
+}
+
+void jsn_array_free(json_array_t *array)
+{
+    jsn_array_values_free(array);
     free(array);
 }
 
-void json_object_free(json_object_t *object)
+static void jsn_object_values_free(json_object_t *object)
 {
-    for (uint32_t i = 0; i < object->size; i++) {
-        jsn_value_free(&object->values[i]);
-        free(object->keys[i]);
+    uint32_t i = 0;
+
+    if (object == NULL) {
+        return;
+    }
+    for (; i < object->size; i++) {
+        if (object->values != NULL) {
+            jsn_value_free(&object->values[i]);
+        }
+        if (object->keys != NULL) {
+            free(object->keys[i]);
+        }
     }
     free(object->values);
     free(object->keys);
+    object->keys = NULL;
+    object->values = NULL;
+    object->size = 0;
+}
+
+void jsn_object_free(json_object_t *object)
+{
+    jsn_object_values_free(object);
     free(object);
 }
 
@@ -35,14 +66,13 @@ void jsn_value_free(json_value_t *jsonValue)
     }
     switch (jsonValue->type) {
         case JSON_ARRAY:
-            json_array_free(jsonValue->array_value);
+            jsn_array_free(jsonValue->array_value);
             break;
         case JSON_OBJECT:
-            json_object_free(jsonValue->object_value);
+            jsn_object_free(jsonValue->object_value);
             break;
         case JSON_NUMBER:
-        case JSON_FALSE:
-        case JSON_TRUE:
+        case JSON_BOOL:
         case JSON_STRING:
         case JSON_NULL:
         default:

@@ -14,8 +14,7 @@ static const json_print_func_t json_print_funcs[] = {
     [JSON_ARRAY] = &jsn_array_print,
     [JSON_OBJECT] = &jsn_object_print,
     [JSON_NUMBER] = &jsn_number_print,
-    [JSON_FALSE] = &jsn_bool_print,
-    [JSON_TRUE] = &jsn_bool_print,
+    [JSON_BOOL] = &jsn_bool_print,
     [JSON_STRING] = &jsn_string_print,
     [JSON_NULL] = &jsn_null_print,
 };

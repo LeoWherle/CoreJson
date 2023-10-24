@@ -5,15 +5,15 @@
 ** json_builder
 */
 
-// reallocarray
+// reallocarray, malloc
 #include <stdlib.h>
-// memcpy, strdup
+// memcpy, strlen
 #include <string.h>
 // DERR
 #include <stdio.h>
 #include "corejson_internal.h"
 
-static char *key_strdup(const char *s)
+char *key_strdup(const char *s)
 {
     size_t len = 0;
     char *new = NULL;
@@ -28,7 +28,22 @@ static char *key_strdup(const char *s)
     return new;
 }
 
-int jsn_object_data_add(
+int value_strdup(char *dest, const char *src)
+{
+    uint32_t i = 0;
+
+    for (; src[i] != '\0'; i++) {
+        dest[i] = src[i];
+        if (i >= VALUE_LEN_MAX) {
+            FLOG(stderr, "String value too long MAX: %d\n", VALUE_LEN_MAX);
+            return 1;
+        }
+    }
+    dest[i] = '\0';
+    return 0;
+}
+
+int jsn_object_add_data(
     json_object_t *object, json_value_t *property, const char *key_buffer)
 {
     object->values =
@@ -52,7 +67,7 @@ int jsn_object_data_add(
     return 0;
 }
 
-int jsn_array_data_add(json_array_t *array, json_value_t *element)
+int jsn_array_add_data(json_array_t *array, json_value_t *element)
 {
     array->elements =
         reallocarray(array->elements, (array->size + 1), sizeof(json_value_t));
@@ -63,4 +78,15 @@ int jsn_array_data_add(json_array_t *array, json_value_t *element)
     memcpy(&array->elements[array->size], element, sizeof(json_value_t));
     array->size++;
     return 0;
+}
+
+json_value_t *jsn_null_create(void)
+{
+    json_value_t *value = NULL;
+
+    value = malloc(sizeof(json_value_t));
+    if (value == NULL)
+        return NULL;
+    value->type = JSON_NULL;
+    return value;
 }

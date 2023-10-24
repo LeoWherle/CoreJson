@@ -25,6 +25,11 @@ NC = \033[0m
 # source files
 SRC = 	src/builder/json_builder.c \
 		src/builder/json_free.c \
+		src/builder/json_create.c \
+		src/builder/json_array/jsn_array_add_value.c \
+		src/builder/json_array/jsn_array_create.c \
+		src/builder/json_array/jsn_array_create_from_list.c \
+		src/builder/json_array/jsn_object_add_value.c \
 		src/lexer/json_lexer_helper.c \
 		src/lexer/json_lexer_match.c \
 		src/lexer/json_lexer.c \
@@ -61,6 +66,9 @@ SRC_TEST = 	tests/t_lexer.c \
 			tests/t_parser.c \
 			tests/t_parser_errors.c \
 			tests/t_json_print.c \
+			tests/t_json_add_value.c \
+			tests/t_json_create.c \
+			tests/t_json_create_from_list.c \
 			$(SRC)
 
 DISTFILES := $(BIN)
@@ -194,7 +202,7 @@ $(TEST_BIN): $(SRC_TEST)
 .PHONY: tests_run
 tests_run: $(TEST_BIN)
 tests_run:
-	-./$(TEST_BIN)
+	@-./$(TEST_BIN)
 
 $(BIN): $(OBJS)
 	@$(LD) $(LDFLAGS) $(LDLIBS) -o $@ $^
@@ -217,7 +225,7 @@ $(LIBSHAREDBIN): $(OBJS_NO_MAIN)
 	@if $(LD) $(LDFLAGS) $(LDLIBS) -o $@ $^; then \
 		echo -e "$(GREEN)linked\t$(WHITE)$@$(NC), \
 		with CFLAGS: $(CYAN)$(CFLAGS)$(NC) \
-		and LIB: $(YELLOW)$(LDLIBS)$(NC) \
+		and LIB: $(YELLOW)$(LDLIBS)$(NC) \ù
 		and LDFLAGS: $(BLUE)$(LDFLAGS)$(NC)"; \
 	else \
 		echo -e "$(RED)failed\t$(WHITE)$@$(NC) \
@@ -225,7 +233,14 @@ $(LIBSHAREDBIN): $(OBJS_NO_MAIN)
 	fi
 .PHONY: gen_version
 gen_version:
-	@echo "#ifndef VERSION_H" > include/version.h
+	@echo "/*" > include/version.h
+	@echo "** EPITECH PROJECT, 2023" >> include/version.h
+	@echo "** CoreJson [WSL: fedora]" >> include/version.h
+	@echo "** File description:" >> include/version.h
+	@echo "** version.h file" >> include/version.h
+	@echo "*/" >> include/version.h
+	@echo "" >> include/version.h
+	@echo "#ifndef VERSION_H" >> include/version.h
 	@echo "    #define VERSION_H" >> include/version.h
 	@echo "    #define VERSION_GIT  \"$(COMMITHASH)\"" >> include/version.h
 	@echo "    #define VERSION_DATE \"$(DATE)\"" >> include/version.h

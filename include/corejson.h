@@ -25,6 +25,9 @@
     #define TRUE_STR "true"
     #define FALSE_STR "false"
     #define VALUE_LEN_MAX 255
+
+    #define JSN_ERROR 1
+    #define JSN_SUCCESS 0
 // clang-format on
 
 typedef struct json_value_s json_value_t;
@@ -36,6 +39,7 @@ typedef enum {
     JSON_NUMBER,
     JSON_TRUE,
     JSON_FALSE,
+    JSON_BOOL,
     JSON_NULL,
     JSON_OBJECT,
     JSON_ARRAY
@@ -96,6 +100,13 @@ json_value_t *jsn_parse_array(const char **json, json_value_t *jsonValue);
 
 /**************************** CONSTRUCTORS ***********************************/
 
+json_value_t *jsn_array_create(void);
+json_value_t *jsn_object_create(void);
+json_value_t *jsn_number_create(double number_value);
+json_value_t *jsn_string_create(const char *string);
+json_value_t *jsn_bool_create(bool bool_value);
+json_value_t *jsn_null_create(void);
+
 /**
  * @brief Add key/value pair to json object
  *
@@ -104,7 +115,7 @@ json_value_t *jsn_parse_array(const char **json, json_value_t *jsonValue);
  * @param key the key to add to the json object
  * @return 0 if success, 1 otherwise (allocation error)
  */
-int jsn_object_data_add(
+int jsn_object_add_data(
     json_object_t *object, json_value_t *value, const char *key);
 
 /**
@@ -114,7 +125,7 @@ int jsn_object_data_add(
  * @param element the json value to add to the json array
  * @return 0 if success, 1 otherwise (allocation error)
  */
-int jsn_array_data_add(json_array_t *array, json_value_t *element);
+int jsn_array_add_data(json_array_t *array, json_value_t *element);
 
 /****************************** PRINT ****************************************/
 

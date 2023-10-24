@@ -56,7 +56,7 @@ static int get_value_and_set_data(
         value->type = JSON_NULL;
         return 1;
     }
-    if (jsn_array_data_add(array, element) != 0) {
+    if (jsn_array_add_data(array, element) != 0) {
         jsn_free(element);
         value->type = JSON_NULL;
         return 1;
@@ -79,7 +79,7 @@ json_value_t *jsn_parse_array(const char **json, json_value_t *value)
             break;
     }
     if (value->type == JSON_NULL) {
-        json_array_free(array);
+        jsn_array_free(array);
         return NULL;
     }
     return value;

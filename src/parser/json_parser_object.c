@@ -54,7 +54,7 @@ static int get_value_and_set_data(json_object_t *object, json_value_t *value,
         value->type = JSON_NULL;
         return 1;
     }
-    if (jsn_object_data_add(object, property, key_buffer) != 0) {
+    if (jsn_object_add_data(object, property, key_buffer) != 0) {
         free(property);
         value->type = JSON_NULL;
         return 1;
@@ -112,7 +112,7 @@ json_value_t *jsn_parse_object(const char **json, json_value_t *value)
             break;
     }
     if (value->type == JSON_NULL) {
-        json_object_free(object);
+        jsn_object_free(object);
         return NULL;
     }
     return value;

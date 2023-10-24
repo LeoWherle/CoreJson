@@ -23,7 +23,7 @@ Test(json_parser, test_parse_true)
 {
     const char *json = "true";
     json_value_t *value = jsn_parse_value(&json);
-    cr_assert_eq(value->type, JSON_TRUE);
+    cr_assert_eq(value->type, JSON_BOOL);
     jsn_free(value);
 }
 
@@ -31,7 +31,7 @@ Test(json_parser, test_parse_false)
 {
     const char *json = "false";
     json_value_t *value = jsn_parse_value(&json);
-    cr_assert_eq(value->type, JSON_FALSE);
+    cr_assert_eq(value->type, JSON_BOOL);
     jsn_free(value);
 }
 

@@ -47,7 +47,10 @@ void jsn_value_print(
     json_value_t *jsonValue, uint32_t, uint32_t format, int fd);
 
 /** FREE **/
-void json_object_free(json_object_t *object);
-void json_array_free(json_array_t *array);
+void jsn_object_free(json_object_t *object);
+void jsn_array_free(json_array_t *array);
 
+/** HELPER **/
+int value_strdup(char *dest, const char *src);
+char *key_strdup(const char *s);
 #endif /* !COREJSON_INTERNAL_H_ */

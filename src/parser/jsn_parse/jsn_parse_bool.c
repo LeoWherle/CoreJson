@@ -10,7 +10,7 @@
 int jsn_tkn_parse_true(
     json_value_t *value, UNUSED token_t *token, UNUSED const char **json)
 {
-    value->type = JSON_TRUE;
+    value->type = JSON_BOOL;
     value->bool_value = true;
     return 0;
 }
@@ -18,7 +18,7 @@ int jsn_tkn_parse_true(
 int jsn_tkn_parse_false(
     json_value_t *value, UNUSED token_t *token, UNUSED const char **json)
 {
-    value->type = JSON_FALSE;
+    value->type = JSON_BOOL;
     value->bool_value = false;
     return 0;
 }
