@@ -6,7 +6,7 @@
 */
 
 #include <stdlib.h>
-#include "corejson_internal.h"
+#include "corejson/internal.h"
 
 json_value_t *jsn_bool_create(bool bool_value)
 {

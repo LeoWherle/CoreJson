@@ -6,7 +6,7 @@
 */
 
 #include <stdio.h>
-#include "corejson_internal.h"
+#include "corejson/internal.h"
 
 void jsn_null_print(UNUSED json_value_t *value, UNUSED uint32_t depth,
     UNUSED uint32_t format, int fd)

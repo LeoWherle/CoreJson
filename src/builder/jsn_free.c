@@ -6,7 +6,7 @@
 */
 
 #include <stdlib.h>
-#include "corejson_internal.h"
+#include "corejson/internal.h"
 
 static void jsn_array_values_free(json_array_t *array)
 {

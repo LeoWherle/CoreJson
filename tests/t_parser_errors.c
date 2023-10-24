@@ -1,6 +1,6 @@
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
-#include "corejson_internal.h"
+#include "corejson/internal.h"
 
 static void redirect_all_output(void)
 {

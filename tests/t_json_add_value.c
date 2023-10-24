@@ -1,5 +1,5 @@
-#include "corejson_internal.h"
-#include "builder/corejson_array.h"
+#include "corejson/internal.h"
+#include "corejson/builder.h"
 
 #include <criterion/criterion.h>
 

@@ -23,16 +23,16 @@ NC = \033[0m
 
 
 # source files
-SRC = 	src/builder/json_builder.c \
-		src/builder/json_free.c \
-		src/builder/json_create.c \
-		src/builder/json_array/jsn_array_add_value.c \
-		src/builder/json_array/jsn_array_create.c \
-		src/builder/json_array/jsn_array_create_from_list.c \
-		src/builder/json_array/jsn_object_add_value.c \
-		src/lexer/json_lexer_helper.c \
-		src/lexer/json_lexer_match.c \
-		src/lexer/json_lexer.c \
+SRC = 	src/builder/jsn_builder.c \
+		src/builder/jsn_free.c \
+		src/builder/jsn_create.c \
+		src/builder/jsn_array/jsn_array_add_value.c \
+		src/builder/jsn_array/jsn_array_add_null.c \
+		src/builder/jsn_array/jsn_array_from_list.c \
+		src/builder/jsn_object/jsn_object_add_value.c \
+		src/lexer/jsn_lexer_helper.c \
+		src/lexer/jsn_lexer_match.c \
+		src/lexer/jsn_lexer.c \
 		src/lexer/jsn_tokens/jsn_tkn_bool.c \
 		src/lexer/jsn_tokens/jsn_tkn_braces.c \
 		src/lexer/jsn_tokens/jsn_tkn_brackets.c \
@@ -42,16 +42,16 @@ SRC = 	src/builder/json_builder.c \
 		src/lexer/jsn_tokens/jsn_tkn_null.c \
 		src/lexer/jsn_tokens/jsn_tkn_number.c \
 		src/lexer/jsn_tokens/jsn_tkn_string.c \
-		src/parser/json_parser_array.c \
-		src/parser/json_parser_object.c \
-		src/parser/json_parser.c \
+		src/parser/jsn_parser_array.c \
+		src/parser/jsn_parser_object.c \
+		src/parser/jsn_parser.c \
 		src/parser/jsn_parse/jsn_parse_array.c \
 		src/parser/jsn_parse/jsn_parse_object.c \
 		src/parser/jsn_parse/jsn_parse_number.c \
 		src/parser/jsn_parse/jsn_parse_string.c \
 		src/parser/jsn_parse/jsn_parse_bool.c \
 		src/parser/jsn_parse/jsn_parse_null.c \
-		src/utils/print/json_print.c \
+		src/utils/print/jsn_print.c \
 		src/utils/print/jsn_print_array.c \
 		src/utils/print/jsn_print_object.c \
 		src/utils/print/jsn_print_number.c \

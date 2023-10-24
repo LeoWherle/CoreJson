@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "corejson_lexer.h"
+#include "corejson/lexer.h"
 
 static token_t *parse_string_data(
     const char **json, token_t *token, const char *start_pos)

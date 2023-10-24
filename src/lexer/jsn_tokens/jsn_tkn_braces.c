@@ -5,7 +5,7 @@
 ** jsn_tkn_comma
 */
 
-#include "corejson_lexer.h"
+#include "corejson/lexer.h"
 
 void jsn_token_left_brace(const char **json, token_t *token)
 {

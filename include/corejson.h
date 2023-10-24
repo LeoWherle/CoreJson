@@ -29,6 +29,7 @@
     #define JSN_ERROR 1
     #define JSN_SUCCESS 0
 // clang-format on
+typedef int json_error_t;
 
 typedef struct json_value_s json_value_t;
 typedef struct json_object_s json_object_t;
@@ -56,7 +57,7 @@ struct json_value_s {
         double number_value;
         json_object_t *object_value;
         json_array_t *array_value;
-        int bool_value;
+        bool bool_value;
     };
 };
 
@@ -115,7 +116,7 @@ json_value_t *jsn_null_create(void);
  * @param key the key to add to the json object
  * @return 0 if success, 1 otherwise (allocation error)
  */
-int jsn_object_add_data(
+json_error_t jsn_object_add_data(
     json_object_t *object, json_value_t *value, const char *key);
 
 /**
@@ -125,7 +126,7 @@ int jsn_object_add_data(
  * @param element the json value to add to the json array
  * @return 0 if success, 1 otherwise (allocation error)
  */
-int jsn_array_add_data(json_array_t *array, json_value_t *element);
+json_error_t jsn_array_add_data(json_array_t *array, json_value_t *element);
 
 /****************************** PRINT ****************************************/
 

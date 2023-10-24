@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "corejson.h"
-#include "corejson_internal.h"
+#include "corejson/internal.h"
 
 static parse_func_t parsefunc_table[] = {
     [TOKEN_STRING] = jsn_tkn_parse_string,

@@ -5,8 +5,8 @@
 ** json_create_advanced
 */
 
-#include "builder/corejson_array.h"
-#include "corejson_internal.h"
+#include "corejson/builder.h"
+#include "corejson/internal.h"
 
 // must be null terminated
 json_value_t *jsn_array_create_from_list_number(double *list, uint32_t size)

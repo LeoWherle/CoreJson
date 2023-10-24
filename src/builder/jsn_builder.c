@@ -11,7 +11,7 @@
 #include <string.h>
 // DERR
 #include <stdio.h>
-#include "corejson_internal.h"
+#include "corejson/internal.h"
 
 char *key_strdup(const char *s)
 {
@@ -28,7 +28,7 @@ char *key_strdup(const char *s)
     return new;
 }
 
-int value_strdup(char *dest, const char *src)
+json_error_t value_strdup(char *dest, const char *src)
 {
     uint32_t i = 0;
 
@@ -36,38 +36,38 @@ int value_strdup(char *dest, const char *src)
         dest[i] = src[i];
         if (i >= VALUE_LEN_MAX) {
             FLOG(stderr, "String value too long MAX: %d\n", VALUE_LEN_MAX);
-            return 1;
+            return JSN_ERROR;
         }
     }
     dest[i] = '\0';
-    return 0;
+    return JSN_SUCCESS;
 }
 
-int jsn_object_add_data(
+json_error_t jsn_object_add_data(
     json_object_t *object, json_value_t *property, const char *key_buffer)
 {
     object->values =
         reallocarray(object->values, (object->size + 1), sizeof(json_value_t));
     if (object->values == NULL) {
         DERR("reallocarray");
-        return 1;
+        return JSN_ERROR;
     }
     memcpy(&object->values[object->size], property, sizeof(json_value_t));
     object->keys =
         reallocarray(object->keys, (object->size + 1), sizeof(char *));
     if (object->keys == NULL) {
         DERR("reallocarray");
-        return 1;
+        return JSN_ERROR;
     }
     object->keys[object->size] = key_strdup(key_buffer);
     if (object->keys[object->size] == NULL) {
-        return 1;
+        return JSN_ERROR;
     }
     object->size++;
-    return 0;
+    return JSN_SUCCESS;
 }
 
-int jsn_array_add_data(json_array_t *array, json_value_t *element)
+json_error_t jsn_array_add_data(json_array_t *array, json_value_t *element)
 {
     array->elements =
         reallocarray(array->elements, (array->size + 1), sizeof(json_value_t));

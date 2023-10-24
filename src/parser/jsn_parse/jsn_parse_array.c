@@ -5,20 +5,20 @@
 ** json_parse_array
 */
 
-#include "corejson_internal.h"
+#include "corejson/internal.h"
 
-int jsn_tkn_parse_array(
+json_error_t jsn_tkn_parse_array(
     json_value_t *value, UNUSED token_t *token, const char **json)
 {
     value->type = JSON_ARRAY;
     value = jsn_parse_array(json, value);
     if (value == NULL) {
         FLOG(stderr, "Failed to parse array\n");
-        return 1;
+        return JSN_ERROR;
     }
     if (value->array_value == NULL) {
         FLOG(stderr, "Failed to parse array\n");
-        return 1;
+        return JSN_ERROR;
     }
-    return 0;
+    return JSN_SUCCESS;
 }

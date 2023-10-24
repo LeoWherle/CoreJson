@@ -5,7 +5,7 @@
 ** jsn_parser_helper
 */
 
-#include "corejson_internal.h"
+#include "corejson/internal.h"
 
 static const char *json_value_type_string[] = {
     [JSON_STRING] = "JSON_STRING",

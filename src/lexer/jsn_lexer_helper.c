@@ -6,7 +6,7 @@
 */
 
 #include <stdint.h>
-#include "corejson_lexer.h"
+#include "corejson/lexer.h"
 
 static const char *token_type_string[] = {
     [TOKEN_STRING] = "TOKEN_STRING",

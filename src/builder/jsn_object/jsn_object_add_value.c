@@ -7,10 +7,10 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "builder/corejson_array.h"
-#include "corejson_internal.h"
+#include "corejson/builder.h"
+#include "corejson/internal.h"
 
-static bool jsn_object_add_new(json_object_t *object, const char *key)
+static json_error_t jsn_object_add_new(json_object_t *object, const char *key)
 {
     object->keys =
         reallocarray(object->keys, sizeof(char *), (object->size + 1));
@@ -30,7 +30,8 @@ static bool jsn_object_add_new(json_object_t *object, const char *key)
     return JSN_SUCCESS;
 }
 
-bool jsn_object_add_number(json_value_t *value, const char *key, double number)
+json_error_t jsn_object_add_number(
+    json_value_t *value, const char *key, double number)
 {
     json_object_t *object = NULL;
 
@@ -48,7 +49,7 @@ bool jsn_object_add_number(json_value_t *value, const char *key, double number)
     return JSN_SUCCESS;
 }
 
-bool jsn_object_add_string(
+json_error_t jsn_object_add_string(
     json_value_t *value, const char *key, const char *string)
 {
     json_object_t *object = NULL;
@@ -70,7 +71,8 @@ bool jsn_object_add_string(
     return JSN_SUCCESS;
 }
 
-bool jsn_object_add_bool(json_value_t *value, const char *key, bool bool_value)
+json_error_t jsn_object_add_bool(
+    json_value_t *value, const char *key, bool bool_value)
 {
     json_object_t *object = NULL;
 
@@ -89,7 +91,7 @@ bool jsn_object_add_bool(json_value_t *value, const char *key, bool bool_value)
 }
 
 // TODO add duplicate object_value
-bool jsn_object_add_object(
+json_error_t jsn_object_add_object(
     json_value_t *value, const char *key, json_object_t *object_value)
 {
     json_object_t *object = NULL;
@@ -108,7 +110,7 @@ bool jsn_object_add_object(
     return JSN_SUCCESS;
 }
 
-bool jsn_object_add_array(
+json_error_t jsn_object_add_array(
     json_value_t *value, const char *key, json_array_t *array_value)
 {
     json_object_t *object = NULL;

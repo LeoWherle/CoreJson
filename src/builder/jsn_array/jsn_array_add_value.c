@@ -7,9 +7,10 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "corejson_internal.h"
+#include "corejson/internal.h"
+#include "corejson.h"
 
-static bool jsn_array_add_new(json_array_t *array)
+static json_error_t jsn_array_add_new(json_array_t *array)
 {
     array->elements = reallocarray(
         array->elements, sizeof(json_value_t), (array->size + 1));
@@ -20,7 +21,7 @@ static bool jsn_array_add_new(json_array_t *array)
     return JSN_SUCCESS;
 }
 
-bool jsn_array_add_number(json_value_t *value, double number)
+json_error_t jsn_array_add_number(json_value_t *value, double number)
 {
     json_array_t *array = NULL;
 
@@ -40,7 +41,7 @@ bool jsn_array_add_number(json_value_t *value, double number)
     return JSN_SUCCESS;
 }
 
-bool jsn_array_add_string(json_value_t *value, const char *string)
+json_error_t jsn_array_add_string(json_value_t *value, const char *string)
 {
     json_array_t *array = NULL;
 
@@ -62,7 +63,7 @@ bool jsn_array_add_string(json_value_t *value, const char *string)
     return JSN_SUCCESS;
 }
 
-bool jsn_array_add_bool(json_value_t *value, bool bool_value)
+json_error_t jsn_array_add_bool(json_value_t *value, bool bool_value)
 {
     json_array_t *array = NULL;
 
@@ -82,7 +83,7 @@ bool jsn_array_add_bool(json_value_t *value, bool bool_value)
     return JSN_SUCCESS;
 }
 
-bool jsn_array_add_object(json_value_t *value, json_object_t *object)
+json_error_t jsn_array_add_object(json_value_t *value, json_object_t *object)
 {
     json_array_t *array = NULL;
 
@@ -102,7 +103,7 @@ bool jsn_array_add_object(json_value_t *value, json_object_t *object)
     return JSN_SUCCESS;
 }
 
-bool jsn_array_add_array(json_value_t *value, json_array_t *array_value)
+json_error_t jsn_array_add_array(json_value_t *value, json_array_t *array_value)
 {
     json_array_t *array = NULL;
 

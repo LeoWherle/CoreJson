@@ -8,7 +8,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
-#include "corejson_internal.h"
+#include "corejson/internal.h"
 
 static const json_print_func_t json_print_funcs[] = {
     [JSON_ARRAY] = &jsn_array_print,

@@ -1,5 +1,5 @@
 #include <criterion/criterion.h>
-#include "corejson_internal.h"
+#include "corejson/internal.h"
 
 Test(json_parser, test_parse_number)
 {

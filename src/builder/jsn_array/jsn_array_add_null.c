@@ -6,9 +6,9 @@
 */
 
 #include <stdlib.h>
-#include "corejson_internal.h"
+#include "corejson/internal.h"
 
-bool jsn_array_add_null(json_value_t *value)
+json_error_t jsn_array_add_null(json_value_t *value)
 {
     json_array_t *array = NULL;
 

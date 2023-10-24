@@ -1,4 +1,4 @@
-#include "corejson_internal.h"
+#include "corejson/internal.h"
 
 #include <criterion/criterion.h>
 

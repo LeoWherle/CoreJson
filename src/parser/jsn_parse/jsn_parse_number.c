@@ -6,12 +6,12 @@
 */
 
 #include <stdlib.h>
-#include "corejson_internal.h"
+#include "corejson/internal.h"
 
-int jsn_tkn_parse_number(
+json_error_t jsn_tkn_parse_number(
     json_value_t *value, token_t *token, UNUSED const char **json)
 {
     value->type = JSON_NUMBER;
     value->number_value = atof(token->value);
-    return 0;
+    return JSN_SUCCESS;
 }
