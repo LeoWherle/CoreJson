@@ -84,11 +84,9 @@ DEPDIR := $(BUILD_DIR)/dep
 
 # object files, auto generated from source files
 OBJS := $(patsubst %,$(OBJDIR)/%.o,$(basename $(SRCS)))
-OBJS_NO_MAIN := $(patsubst %,$(OBJDIR)/%.o,$(basename $(SRC)))
-OBJS_TEST := $(patsubst %,$(OBJDIR)/%.o,$(basename $(SRC_TEST)))
+OBJS_LIBS := $(patsubst %,$(OBJDIR)/%.o,$(basename $(SRC)))
 # dependency files, auto generated from source files
 DEPS := $(patsubst %,$(DEPDIR)/%.d,$(basename $(SRCS)))
-DEPS_TEST := $(patsubst %,$(DEPDIR)/%.d,$(basename $(SRC_TEST)))
 
 COMMITHASH := $(shell git describe --always --abbrev=0\
  --match "NOT A TAG" --dirty="*")
@@ -96,8 +94,6 @@ DATE := $(shell date "+%d-%b-%Y %Hh:%Mm:%Ss (UTC)" --utc)
 # compilers don't create the subdirectories automatically
 $(shell mkdir -p $(dir $(OBJS)) >/dev/null)
 $(shell mkdir -p $(dir $(DEPS)) >/dev/null)
-$(shell mkdir -p $(dir $(OBJS_TEST)) >/dev/null)
-$(shell mkdir -p $(dir $(DEPS_TEST)) >/dev/null)
 
 MAKEFLAGS += --no-print-directory
 # C compiler
@@ -212,7 +208,7 @@ $(BIN): $(OBJS)
 	and LDFLAGS: $(BLUE)$(LDFLAGS)$(NC)"
 
 
-$(LIBBIN): $(OBJS_NO_MAIN)
+$(LIBBIN): $(OBJS_LIBS)
 	@ar rcs $(LIBBIN) $^
 	@echo -e "$(GREEN)linked\t$(WHITE)$@$(NC), \
 	with CFLAGS: $(CYAN)$(CFLAGS)$(NC) \
@@ -221,7 +217,7 @@ $(LIBBIN): $(OBJS_NO_MAIN)
 
 $(LIBSHAREDBIN): CFLAGS += -fPIC
 $(LIBSHAREDBIN): LDFLAGS += -shared
-$(LIBSHAREDBIN): $(OBJS_NO_MAIN)
+$(LIBSHAREDBIN): $(OBJS_LIBS)
 	@if $(LD) $(LDFLAGS) $(LDLIBS) -o $@ $^; then \
 		echo -e "$(GREEN)linked\t$(WHITE)$@$(NC), \
 		with CFLAGS: $(CYAN)$(CFLAGS)$(NC) \
@@ -242,8 +238,10 @@ gen_version:
 	@echo "" >> include/corejson/version.h
 	@echo "#ifndef VERSION_H" >> include/corejson/version.h
 	@echo "    #define VERSION_H" >> include/corejson/version.h
-	@echo "    #define VERSION_GIT  \"$(COMMITHASH)\"" >> include/corejson/version.h
-	@echo "    #define VERSION_DATE \"$(DATE)\"" >> include/corejson/version.h
+	@echo "    #define VERSION_GIT  \"$(COMMITHASH)\""\
+	 >> include/corejson/version.h
+	@echo "    #define VERSION_DATE \"$(DATE)\""\
+	 >> include/corejson/version.h
 	@echo "#endif /* VERSION_H */" >> include/corejson/version.h
 
 $(OBJDIR)/%.o: %.c
