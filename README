@@ -1,7 +1,3 @@
-functions use from libc within the library (excluding main.c):
-malloc, reallocarray, free, memcpy, memset, strlen, dprintf, strncmp
-(fprintf for debugging)
-
 # JSON Parser & Builder Library in C
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
