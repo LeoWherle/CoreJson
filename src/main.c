@@ -13,7 +13,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "corejson.h"
-#include "version.h"
+#include "corejson/version.h"
 
 static int read_file(int fd, char **json_str)
 {

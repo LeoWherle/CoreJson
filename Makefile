@@ -233,18 +233,18 @@ $(LIBSHAREDBIN): $(OBJS_NO_MAIN)
 	fi
 .PHONY: gen_version
 gen_version:
-	@echo "/*" > include/version.h
-	@echo "** EPITECH PROJECT, 2023" >> include/version.h
-	@echo "** CoreJson [WSL: fedora]" >> include/version.h
-	@echo "** File description:" >> include/version.h
-	@echo "** version.h file" >> include/version.h
-	@echo "*/" >> include/version.h
-	@echo "" >> include/version.h
-	@echo "#ifndef VERSION_H" >> include/version.h
-	@echo "    #define VERSION_H" >> include/version.h
-	@echo "    #define VERSION_GIT  \"$(COMMITHASH)\"" >> include/version.h
-	@echo "    #define VERSION_DATE \"$(DATE)\"" >> include/version.h
-	@echo "#endif /* VERSION_H */" >> include/version.h
+	@echo "/*" > include/corejson/version.h
+	@echo "** EPITECH PROJECT, 2023" >> include/corejson/version.h
+	@echo "** CoreJson [WSL: fedora]" >> include/corejson/version.h
+	@echo "** File description:" >> include/corejson/version.h
+	@echo "** version.h file" >> include/corejson/version.h
+	@echo "*/" >> include/corejson/version.h
+	@echo "" >> include/corejson/version.h
+	@echo "#ifndef VERSION_H" >> include/corejson/version.h
+	@echo "    #define VERSION_H" >> include/corejson/version.h
+	@echo "    #define VERSION_GIT  \"$(COMMITHASH)\"" >> include/corejson/version.h
+	@echo "    #define VERSION_DATE \"$(DATE)\"" >> include/corejson/version.h
+	@echo "#endif /* VERSION_H */" >> include/corejson/version.h
 
 $(OBJDIR)/%.o: %.c
 $(OBJDIR)/%.o: %.c $(DEPDIR)/%.d
