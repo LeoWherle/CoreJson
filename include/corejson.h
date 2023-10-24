@@ -28,6 +28,10 @@
 
     #define JSN_ERROR 1
     #define JSN_SUCCESS 0
+
+    #define JSN_FORMAT_4_SPACES 2
+    #define JSN_FORMAT_2_SPACES 1
+    #define JSN_FORMAT_NONE 0
 // clang-format on
 typedef int json_error_t;
 

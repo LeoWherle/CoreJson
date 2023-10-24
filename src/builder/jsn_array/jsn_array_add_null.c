@@ -20,7 +20,7 @@ json_error_t jsn_array_add_null(json_value_t *value)
         return JSN_ERROR;
     }
     array->elements =
-        realloc(array->elements, sizeof(json_value_t) * (array->size + 1));
+        reallocarray(array->elements, sizeof(json_value_t), (array->size + 1));
     if (array->elements == NULL) {
         return JSN_ERROR;
     }

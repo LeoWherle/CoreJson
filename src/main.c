@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
     if (read_json_file(argv[1], &json_str) != 0) {
         return 1;
     }
-    ret = print_json(json_str, 2, STDOUT_FILENO);
+    ret = print_json(json_str, JSN_FORMAT_4_SPACES, STDOUT_FILENO);
     free(json_str);
     return ret;
 }

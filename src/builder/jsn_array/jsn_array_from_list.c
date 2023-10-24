@@ -8,7 +8,6 @@
 #include "corejson/builder.h"
 #include "corejson/internal.h"
 
-// must be null terminated
 json_value_t *jsn_array_create_from_list_number(double *list, uint32_t size)
 {
     json_value_t *value = NULL;
@@ -28,7 +27,6 @@ json_value_t *jsn_array_create_from_list_number(double *list, uint32_t size)
     return value;
 }
 
-// must be null terminated
 json_value_t *jsn_array_create_from_list_string(
     const char **list, uint32_t size)
 {
@@ -49,7 +47,6 @@ json_value_t *jsn_array_create_from_list_string(
     return value;
 }
 
-// must be null terminated
 json_value_t *jsn_array_create_from_list_bool(bool *list, uint32_t size)
 {
     json_value_t *value = NULL;
@@ -69,7 +66,6 @@ json_value_t *jsn_array_create_from_list_bool(bool *list, uint32_t size)
     return value;
 }
 
-// must be null terminated
 json_value_t *jsn_array_create_from_list_object(
     json_object_t **list, uint32_t size)
 {
@@ -90,7 +86,6 @@ json_value_t *jsn_array_create_from_list_object(
     return value;
 }
 
-// must be null terminated
 json_value_t *jsn_array_create_from_list_array(
     json_array_t **list, uint32_t size)
 {
