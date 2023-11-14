@@ -1,13 +1,12 @@
 # JSON Parser & Builder Library in C
-
+[![codecov](https://codecov.io/gh/LeoWherle/CoreJson/graph/badge.svg?token=N2CGGRULNI)](https://codecov.io/gh/LeoWherle/CoreJson)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## Features
 
-- **Parsing**: Easily parse JSON data from strings or files.
+- **Parsing**: Easily parse JSON data from strings.
 - **Building**: Create JSON structures programmatically with a fluent API.
-- **Error Handling**: Robust error handling with descriptive error messages.
-- **Performance**: Efficient parsing and building for improved application speed.
+- **Error Handling**: Robust error handling with descriptive error messages. More info [here](https://leowherle.github.io/CoreJson/).
 - **Memory Management**: Careful memory management to avoid memory leaks.
 
 ## Requirements
