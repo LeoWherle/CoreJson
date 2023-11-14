@@ -124,6 +124,8 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    jsn_print(object, JSN_FORMAT_4_SPACES, STDOUT_FILENO);
+
     jsn_free(object);
     return 0;
 }

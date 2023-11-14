@@ -31,12 +31,9 @@ static json_value_t *jsn_dup_val(json_value_t *dst, const json_value_t *src)
 
 json_error_t jsn_object_dup(json_value_t *dst, const json_value_t *src)
 {
-    if (dst == NULL || src->obj_val == NULL || dst->obj_val == NULL) {
-        FLOG(stderr, "Bad value\n");
+    if (dst == NULL || src->obj_val == NULL || dst->obj_val == NULL)
         return JSN_ERROR;
-    }
     dst->obj_val->size = src->obj_val->size;
-    FLOG(stderr, "size: %d\n", src->obj_val->size);
     dst->obj_val->keys = calloc(sizeof(char *), src->obj_val->size);
     dst->obj_val->values = calloc(sizeof(json_value_t), src->obj_val->size);
     if (dst->obj_val->keys == NULL || dst->obj_val->values == NULL) {
@@ -53,7 +50,6 @@ json_error_t jsn_object_dup(json_value_t *dst, const json_value_t *src)
             return JSN_ERROR;
         }
     }
-    FLOG(stderr, "Duplicated object\n");
     return JSN_SUCCESS;
 }
 
