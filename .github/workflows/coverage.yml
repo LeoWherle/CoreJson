@@ -16,8 +16,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up GCC and gcovr
-        run: sudo apt-get install -y gcovr
+      - name: Set up GCC and gcovr and install criterion
+        run: sudo apt-get install -y gcovr libcriterion-dev
 
       - name: Build and Run Tests
         run: |
