@@ -5,32 +5,32 @@ on:
     branches:
       - main # Replace with your main branch name
   pull_request:
-    branches:
-      - main # Replace with your main branch name
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up GCC and gcovr and install criterion
-        run: sudo apt-get install -y gcovr libcriterion-dev
+      - name: Set up (gcovr & criterion)
+        run: |
+          sudo apt-get install -y gcovr libcriterion-dev
+          mkdir coverage && touch coverage/index.html
 
       - name: Build and Run Tests
         run: |
           make tests_run
-
-      - name: Create index.html at coverage/
-        run: mkdir coverage && touch coverage/index.html
 
       - name: Generate Coverage Report
         run: gcovr -r . --html --html-details -o coverage/index.html
 
       - name: Publish Coverage Report
         uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./coverage
