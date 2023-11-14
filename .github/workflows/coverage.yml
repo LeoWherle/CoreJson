@@ -28,6 +28,11 @@ jobs:
       - name: Generate Coverage Report
         run: gcovr -r . --html --html-details -o coverage/index.html
 
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
       - name: Publish Coverage Report
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main'

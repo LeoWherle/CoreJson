@@ -203,10 +203,6 @@ tests_run: $(TEST_BIN)
 tests_run:
 	@-./$(TEST_BIN)
 
-coverage: tests_run
-	@echo "Generating coverage report..."
-	@gcovr -r . --html --html-details -o coverage/index.html --exclude tests
-
 $(BIN): $(OBJS)
 	@$(LD) $(LDFLAGS) $(LDLIBS) -o $@ $^
 	@echo -e "$(GREEN)linked\t$(WHITE)$@$(NC), \
