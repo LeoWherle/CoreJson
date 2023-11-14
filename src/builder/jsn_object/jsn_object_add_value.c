@@ -35,16 +35,16 @@ json_error_t jsn_object_add_number(
 {
     json_object_t *object = NULL;
 
-    if (value == NULL || value->object_value == NULL || key == NULL
+    if (value == NULL || value->obj_val == NULL || key == NULL
         || value->type != JSON_OBJECT)
         return JSN_ERROR;
-    object = value->object_value;
+    object = value->obj_val;
     if (jsn_object_add_new(object, key) == JSN_ERROR) {
         object->size++;
         return JSN_ERROR;
     }
     object->values[object->size].type = JSON_NUMBER;
-    object->values[object->size].number_value = number;
+    object->values[object->size].nbr_val = number;
     object->size++;
     return JSN_SUCCESS;
 }
@@ -54,16 +54,16 @@ json_error_t jsn_object_add_string(
 {
     json_object_t *object = NULL;
 
-    if (value == NULL || value->object_value == NULL || key == NULL
+    if (value == NULL || value->obj_val == NULL || key == NULL
         || value->type != JSON_OBJECT || string == NULL)
         return JSN_ERROR;
-    object = value->object_value;
+    object = value->obj_val;
     if (jsn_object_add_new(object, key) == JSN_ERROR) {
         object->size++;
         return JSN_ERROR;
     }
     object->values[object->size].type = JSON_STRING;
-    if (value_strdup(object->values[object->size].string_value, string) != 0) {
+    if (value_strdup(object->values[object->size].str_val, string) != 0) {
         object->size++;
         return JSN_ERROR;
     }
@@ -76,16 +76,16 @@ json_error_t jsn_object_add_bool(
 {
     json_object_t *object = NULL;
 
-    if (value == NULL || value->object_value == NULL || key == NULL
+    if (value == NULL || value->obj_val == NULL || key == NULL
         || value->type != JSON_OBJECT)
         return JSN_ERROR;
-    object = value->object_value;
+    object = value->obj_val;
     if (jsn_object_add_new(object, key) == JSN_ERROR) {
         object->size++;
         return JSN_ERROR;
     }
     object->values[object->size].type = JSON_BOOL;
-    object->values[object->size].bool_value = bool_value;
+    object->values[object->size].bool_val = bool_value;
     object->size++;
     return JSN_SUCCESS;
 }
@@ -95,17 +95,20 @@ json_error_t jsn_object_add_object(
     json_value_t *value, const char *key, json_object_t *object_value)
 {
     json_object_t *object = NULL;
+    json_value_t temp_object = {.type = JSON_OBJECT, .obj_val = object_value};
 
-    if (value == NULL || value->object_value == NULL || key == NULL
+    if (value == NULL || value->obj_val == NULL || key == NULL
         || value->type != JSON_OBJECT || object_value == NULL)
         return JSN_ERROR;
-    object = value->object_value;
+    object = value->obj_val;
     if (jsn_object_add_new(object, key) == JSN_ERROR) {
         object->size++;
         return JSN_ERROR;
     }
-    object->values[object->size].type = JSON_OBJECT;
-    object->values[object->size].object_value = object_value;
+    if (jsn_dup(&object->values[object->size], &temp_object) == NULL) {
+        object->size++;
+        return JSN_ERROR;
+    }
     object->size++;
     return JSN_SUCCESS;
 }
@@ -114,17 +117,21 @@ json_error_t jsn_object_add_array(
     json_value_t *value, const char *key, json_array_t *array_value)
 {
     json_object_t *object = NULL;
+    json_value_t temp_array = {.type = JSON_ARRAY, .arr_val = array_value};
 
-    if (value == NULL || value->object_value == NULL || key == NULL
-        || value->type != JSON_OBJECT || array_value == NULL)
+    if (value == NULL || value->obj_val == NULL || key == NULL
+        || value->type != JSON_OBJECT || array_value == NULL) {
         return JSN_ERROR;
-    object = value->object_value;
+    }
+    object = value->obj_val;
     if (jsn_object_add_new(object, key) == JSN_ERROR) {
         object->size++;
         return JSN_ERROR;
     }
-    object->values[object->size].type = JSON_ARRAY;
-    object->values[object->size].array_value = array_value;
+    if (jsn_dup(&object->values[object->size], &temp_array) == NULL) {
+        object->size++;
+        return JSN_ERROR;
+    }
     object->size++;
     return JSN_SUCCESS;
 }

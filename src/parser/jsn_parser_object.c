@@ -24,7 +24,7 @@ static json_error_t init_object_data(
         (*object)->values = NULL;
         (*object)->keys = NULL;
         value->type = JSON_OBJECT;
-        value->object_value = *object;
+        value->obj_val = *object;
         return JSN_SUCCESS;
     }
 }

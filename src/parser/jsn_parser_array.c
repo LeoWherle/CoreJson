@@ -19,9 +19,9 @@ static json_error_t init_object_data(json_value_t *value, json_array_t **array)
         return JSN_ERROR;
     } else {
         (*array)->size = 0;
-        (*array)->elements = NULL;
+        (*array)->elem = NULL;
         value->type = JSON_ARRAY;
-        value->array_value = *array;
+        value->arr_val = *array;
         return JSN_SUCCESS;
     }
 }

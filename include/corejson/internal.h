@@ -10,12 +10,16 @@
     #define COREJSON_INTERNAL_H_
 
     #include "corejson.h"
+    #include "corejson/builder.h"
     #include "corejson/lexer.h"
 // clang-format on
 
 /** Printer handle **/
 typedef void (*json_print_func_t)(
     json_value_t *val, uint32_t depth, uint32_t format, int fd);
+
+/** Duplictation handle **/
+typedef int (*jsn_dup_tble_t)(json_value_t *dst, json_value_t *src);
 
 struct json_object_s {
     json_value_t *values;
@@ -24,7 +28,7 @@ struct json_object_s {
 };
 
 struct json_array_s {
-    json_value_t *elements;
+    json_value_t *elem;
     size_t size;
 };
 
@@ -45,6 +49,10 @@ void jsn_null_print(
 void print_spaces(uint32_t depth, int fd, uint32_t format);
 void jsn_value_print(
     json_value_t *jsonValue, uint32_t, uint32_t format, int fd);
+
+/** Duplicate **/
+json_error_t jsn_array_dup(json_value_t *dst, const json_value_t *src);
+json_error_t jsn_object_dup(json_value_t *dst, const json_value_t *src);
 
 /** FREE **/
 void jsn_object_free(json_object_t *object);

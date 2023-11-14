@@ -9,7 +9,7 @@ Test(jsn_create, test_bool)
 
     cr_assert_not_null(value);
     cr_assert_eq(value->type, JSON_BOOL);
-    cr_assert_eq(value->bool_value, true);
+    cr_assert_eq(value->bool_val, true);
     jsn_free(value);
 }
 
@@ -19,7 +19,7 @@ Test(jsn_create, test_number)
 
     cr_assert_not_null(value);
     cr_assert_eq(value->type, JSON_NUMBER);
-    cr_assert_eq(value->number_value, 42);
+    cr_assert_eq(value->nbr_val, 42);
     jsn_free(value);
 }
 
@@ -29,7 +29,7 @@ Test(jsn_create, test_string)
 
     cr_assert_not_null(value);
     cr_assert_eq(value->type, JSON_STRING);
-    cr_assert_str_eq(value->string_value, "Hello World");
+    cr_assert_str_eq(value->str_val, "Hello World");
     jsn_free(value);
 }
 
@@ -39,9 +39,9 @@ Test(jsn_create, test_array)
 
     cr_assert_not_null(value);
     cr_assert_eq(value->type, JSON_ARRAY);
-    cr_assert_not_null(value->array_value);
-    cr_assert_eq(value->array_value->size, 0);
-    cr_assert_null(value->array_value->elements);
+    cr_assert_not_null(value->arr_val);
+    cr_assert_eq(value->arr_val->size, 0);
+    cr_assert_null(value->arr_val->elem);
     jsn_free(value);
 }
 
@@ -51,10 +51,10 @@ Test(jsn_create, test_object)
 
     cr_assert_not_null(value);
     cr_assert_eq(value->type, JSON_OBJECT);
-    cr_assert_not_null(value->object_value);
-    cr_assert_eq(value->object_value->size, 0);
-    cr_assert_null(value->object_value->values);
-    cr_assert_null(value->object_value->keys);
+    cr_assert_not_null(value->obj_val);
+    cr_assert_eq(value->obj_val->size, 0);
+    cr_assert_null(value->obj_val->values);
+    cr_assert_null(value->obj_val->keys);
     jsn_free(value);
 }
 
@@ -73,7 +73,7 @@ Test(jsn_create, test_bool_false)
 
     cr_assert_not_null(value);
     cr_assert_eq(value->type, JSON_BOOL);
-    cr_assert_eq(value->bool_value, false);
+    cr_assert_eq(value->bool_val, false);
     jsn_free(value);
 }
 
@@ -83,7 +83,7 @@ Test(jsn_create, test_number_big)
 
     cr_assert_not_null(value);
     cr_assert_eq(value->type, JSON_NUMBER);
-    cr_assert_eq(value->number_value, 35678901234567600.0);
+    cr_assert_eq(value->nbr_val, 35678901234567600.0);
     jsn_free(value);
 }
 
@@ -93,7 +93,7 @@ Test(jsn_create, test_number_negative)
 
     cr_assert_not_null(value);
     cr_assert_eq(value->type, JSON_NUMBER);
-    cr_assert_eq(value->number_value, -42);
+    cr_assert_eq(value->nbr_val, -42);
     jsn_free(value);
 }
 
@@ -103,7 +103,7 @@ Test(jsn_create, test_number_float)
 
     cr_assert_not_null(value);
     cr_assert_eq(value->type, JSON_NUMBER);
-    cr_assert_eq(value->number_value, 42.42);
+    cr_assert_eq(value->nbr_val, 42.42);
     jsn_free(value);
 }
 
@@ -113,7 +113,7 @@ Test(jsn_create, test_number_float_negative)
 
     cr_assert_not_null(value);
     cr_assert_eq(value->type, JSON_NUMBER);
-    cr_assert_eq(value->number_value, -42.42);
+    cr_assert_eq(value->nbr_val, -42.42);
     jsn_free(value);
 }
 
@@ -123,7 +123,7 @@ Test(jsn_create, test_string_empty)
 
     cr_assert_not_null(value);
     cr_assert_eq(value->type, JSON_STRING);
-    cr_assert_str_eq(value->string_value, "");
+    cr_assert_str_eq(value->str_val, "");
     jsn_free(value);
 }
 
@@ -141,9 +141,9 @@ Test(jsn_create, test_array_null)
 
     cr_assert_not_null(value);
     cr_assert_eq(value->type, JSON_ARRAY);
-    cr_assert_not_null(value->array_value);
-    cr_assert_eq(value->array_value->size, 0);
-    cr_assert_null(value->array_value->elements);
+    cr_assert_not_null(value->arr_val);
+    cr_assert_eq(value->arr_val->size, 0);
+    cr_assert_null(value->arr_val->elem);
     jsn_free(value);
 }
 
@@ -153,9 +153,9 @@ Test(jsn_create, test_object_null)
 
     cr_assert_not_null(value);
     cr_assert_eq(value->type, JSON_OBJECT);
-    cr_assert_not_null(value->object_value);
-    cr_assert_eq(value->object_value->size, 0);
-    cr_assert_null(value->object_value->values);
-    cr_assert_null(value->object_value->keys);
+    cr_assert_not_null(value->obj_val);
+    cr_assert_eq(value->obj_val->size, 0);
+    cr_assert_null(value->obj_val->values);
+    cr_assert_null(value->obj_val->keys);
     jsn_free(value);
 }

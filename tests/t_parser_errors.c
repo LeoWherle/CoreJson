@@ -14,7 +14,7 @@ Test(json_parser, test_parse_number_error, .init = redirect_all_output)
     json_value_t *value = jsn_parse_value(&json);
     cr_assert_not_null(value);
     cr_assert_eq(value->type, JSON_NUMBER);
-    cr_assert_eq(value->number_value, 0);
+    cr_assert_eq(value->nbr_val, 0);
     jsn_free(value);
 }
 

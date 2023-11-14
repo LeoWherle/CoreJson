@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include "corejson.h"
 #include "corejson/version.h"
+#include "corejson/builder.h"
 
 static int read_file(int fd, char **json_str)
 {
@@ -84,22 +85,45 @@ int print_version(void)
     return 0;
 }
 
+// int main(int argc, char *argv[])
+// {
+//     int ret = 0;
+//     char *json_str = NULL;
+
+//     if (argc != 2) {
+//         printf("Usage: %s <file>\n", argv[0]);
+//         return 1;
+//     }
+//     if (strcmp(argv[1], "-v") == 0) {
+//         return print_version();
+//     }
+//     if (read_json_file(argv[1], &json_str) != 0) {
+//         return 1;
+//     }
+//     ret = print_json(json_str, JSN_FORMAT_4_SPACES, STDOUT_FILENO);
+//     free(json_str);
+//     return ret;
+// }
+
 int main(int argc, char *argv[])
 {
-    int ret = 0;
-    char *json_str = NULL;
+    json_value_t *object = NULL;
+    json_value_t *array = NULL;
+    double array_val[] = {12, 23, 3};
 
-    if (argc != 2) {
-        printf("Usage: %s <file>\n", argv[0]);
+    object = jsn_object_create();
+    if (object == NULL) {
         return 1;
     }
-    if (strcmp(argv[1], "-v") == 0) {
-        return print_version();
-    }
-    if (read_json_file(argv[1], &json_str) != 0) {
+    array = jsn_array_create_from_list_number(array_val, 3);
+    if (array == NULL) {
         return 1;
     }
-    ret = print_json(json_str, JSN_FORMAT_4_SPACES, STDOUT_FILENO);
-    free(json_str);
-    return ret;
+
+    if (jsn_object_add_array(object, "array", array->arr_val) == JSN_ERROR) {
+        return 1;
+    }
+
+    jsn_free(object);
+    return 0;
 }

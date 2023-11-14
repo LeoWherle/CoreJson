@@ -16,7 +16,7 @@ json_error_t jsn_tkn_parse_array(
         FLOG(stderr, "Failed to parse array\n");
         return JSN_ERROR;
     }
-    if (value->array_value == NULL) {
+    if (value->arr_val == NULL) {
         FLOG(stderr, "Failed to parse array\n");
         return JSN_ERROR;
     }

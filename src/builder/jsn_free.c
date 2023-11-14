@@ -16,12 +16,12 @@ static void jsn_array_values_free(json_array_t *array)
         return;
     }
     for (; i < array->size; i++) {
-        if (array->elements != NULL) {
-            jsn_value_free(&array->elements[i]);
+        if (array->elem != NULL) {
+            jsn_value_free(&array->elem[i]);
         }
     }
-    free(array->elements);
-    array->elements = NULL;
+    free(array->elem);
+    array->elem = NULL;
     array->size = 0;
 }
 
@@ -66,10 +66,10 @@ void jsn_value_free(json_value_t *jsonValue)
     }
     switch (jsonValue->type) {
         case JSON_ARRAY:
-            jsn_array_free(jsonValue->array_value);
+            jsn_array_free(jsonValue->arr_val);
             break;
         case JSON_OBJECT:
-            jsn_object_free(jsonValue->object_value);
+            jsn_object_free(jsonValue->obj_val);
             break;
         case JSON_NUMBER:
         case JSON_BOOL:

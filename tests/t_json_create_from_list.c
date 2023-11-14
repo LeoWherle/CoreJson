@@ -24,15 +24,15 @@ Test(jsn_array_create_from_list, string)
 
     cr_assert_not_null(value);
     cr_assert_eq(value->type, JSON_ARRAY);
-    cr_assert_not_null(value->array_value);
-    cr_assert_eq(value->array_value->size, 3);
-    cr_assert_not_null(value->array_value->elements);
-    cr_assert_eq(value->array_value->elements[0].type, JSON_STRING);
-    cr_assert_str_eq(value->array_value->elements[0].string_value, "Hello");
-    cr_assert_eq(value->array_value->elements[1].type, JSON_STRING);
-    cr_assert_str_eq(value->array_value->elements[1].string_value, "World");
-    cr_assert_eq(value->array_value->elements[2].type, JSON_STRING);
-    cr_assert_str_eq(value->array_value->elements[2].string_value, "!");
+    cr_assert_not_null(value->arr_val);
+    cr_assert_eq(value->arr_val->size, 3);
+    cr_assert_not_null(value->arr_val->elem);
+    cr_assert_eq(value->arr_val->elem[0].type, JSON_STRING);
+    cr_assert_str_eq(value->arr_val->elem[0].str_val, "Hello");
+    cr_assert_eq(value->arr_val->elem[1].type, JSON_STRING);
+    cr_assert_str_eq(value->arr_val->elem[1].str_val, "World");
+    cr_assert_eq(value->arr_val->elem[2].type, JSON_STRING);
+    cr_assert_str_eq(value->arr_val->elem[2].str_val, "!");
     jsn_free(value);
 }
 
@@ -44,27 +44,27 @@ Test(jsn_array_create_from_list, number)
 
     cr_assert_not_null(value);
     cr_assert_eq(value->type, JSON_ARRAY);
-    cr_assert_not_null(value->array_value);
-    cr_assert_eq(value->array_value->size, 9);
-    cr_assert_not_null(value->array_value->elements);
-    cr_assert_eq(value->array_value->elements[0].type, JSON_NUMBER);
-    cr_assert_eq(value->array_value->elements[0].number_value, 1);
-    cr_assert_eq(value->array_value->elements[1].type, JSON_NUMBER);
-    cr_assert_eq(value->array_value->elements[1].number_value, 2);
-    cr_assert_eq(value->array_value->elements[2].type, JSON_NUMBER);
-    cr_assert_eq(value->array_value->elements[2].number_value, 3);
-    cr_assert_eq(value->array_value->elements[3].type, JSON_NUMBER);
-    cr_assert_eq(value->array_value->elements[3].number_value, 4);
-    cr_assert_eq(value->array_value->elements[4].type, JSON_NUMBER);
-    cr_assert_eq(value->array_value->elements[4].number_value, 5);
-    cr_assert_eq(value->array_value->elements[5].type, JSON_NUMBER);
-    cr_assert_eq(value->array_value->elements[5].number_value, 6);
-    cr_assert_eq(value->array_value->elements[6].type, JSON_NUMBER);
-    cr_assert_eq(value->array_value->elements[6].number_value, 7);
-    cr_assert_eq(value->array_value->elements[7].type, JSON_NUMBER);
-    cr_assert_eq(value->array_value->elements[7].number_value, 8);
-    cr_assert_eq(value->array_value->elements[8].type, JSON_NUMBER);
-    cr_assert_eq(value->array_value->elements[8].number_value, 9);
+    cr_assert_not_null(value->arr_val);
+    cr_assert_eq(value->arr_val->size, 9);
+    cr_assert_not_null(value->arr_val->elem);
+    cr_assert_eq(value->arr_val->elem[0].type, JSON_NUMBER);
+    cr_assert_eq(value->arr_val->elem[0].nbr_val, 1);
+    cr_assert_eq(value->arr_val->elem[1].type, JSON_NUMBER);
+    cr_assert_eq(value->arr_val->elem[1].nbr_val, 2);
+    cr_assert_eq(value->arr_val->elem[2].type, JSON_NUMBER);
+    cr_assert_eq(value->arr_val->elem[2].nbr_val, 3);
+    cr_assert_eq(value->arr_val->elem[3].type, JSON_NUMBER);
+    cr_assert_eq(value->arr_val->elem[3].nbr_val, 4);
+    cr_assert_eq(value->arr_val->elem[4].type, JSON_NUMBER);
+    cr_assert_eq(value->arr_val->elem[4].nbr_val, 5);
+    cr_assert_eq(value->arr_val->elem[5].type, JSON_NUMBER);
+    cr_assert_eq(value->arr_val->elem[5].nbr_val, 6);
+    cr_assert_eq(value->arr_val->elem[6].type, JSON_NUMBER);
+    cr_assert_eq(value->arr_val->elem[6].nbr_val, 7);
+    cr_assert_eq(value->arr_val->elem[7].type, JSON_NUMBER);
+    cr_assert_eq(value->arr_val->elem[7].nbr_val, 8);
+    cr_assert_eq(value->arr_val->elem[8].type, JSON_NUMBER);
+    cr_assert_eq(value->arr_val->elem[8].nbr_val, 9);
     jsn_free(value);
 }
 
@@ -75,27 +75,27 @@ Test(jsn_array_create_from_list, boolean)
 
     cr_assert_not_null(value);
     cr_assert_eq(value->type, JSON_ARRAY);
-    cr_assert_not_null(value->array_value);
-    cr_assert_eq(value->array_value->size, 9);
-    cr_assert_not_null(value->array_value->elements);
-    cr_assert_eq(value->array_value->elements[0].type, JSON_BOOL);
-    cr_assert_eq(value->array_value->elements[0].bool_value, true);
-    cr_assert_eq(value->array_value->elements[1].type, JSON_BOOL);
-    cr_assert_eq(value->array_value->elements[1].bool_value, false);
-    cr_assert_eq(value->array_value->elements[2].type, JSON_BOOL);
-    cr_assert_eq(value->array_value->elements[2].bool_value, true);
-    cr_assert_eq(value->array_value->elements[3].type, JSON_BOOL);
-    cr_assert_eq(value->array_value->elements[3].bool_value, false);
-    cr_assert_eq(value->array_value->elements[4].type, JSON_BOOL);
-    cr_assert_eq(value->array_value->elements[4].bool_value, true);
-    cr_assert_eq(value->array_value->elements[5].type, JSON_BOOL);
-    cr_assert_eq(value->array_value->elements[5].bool_value, false);
-    cr_assert_eq(value->array_value->elements[6].type, JSON_BOOL);
-    cr_assert_eq(value->array_value->elements[6].bool_value, true);
-    cr_assert_eq(value->array_value->elements[7].type, JSON_BOOL);
-    cr_assert_eq(value->array_value->elements[7].bool_value, false);
-    cr_assert_eq(value->array_value->elements[8].type, JSON_BOOL);
-    cr_assert_eq(value->array_value->elements[8].bool_value, true);
+    cr_assert_not_null(value->arr_val);
+    cr_assert_eq(value->arr_val->size, 9);
+    cr_assert_not_null(value->arr_val->elem);
+    cr_assert_eq(value->arr_val->elem[0].type, JSON_BOOL);
+    cr_assert_eq(value->arr_val->elem[0].bool_val, true);
+    cr_assert_eq(value->arr_val->elem[1].type, JSON_BOOL);
+    cr_assert_eq(value->arr_val->elem[1].bool_val, false);
+    cr_assert_eq(value->arr_val->elem[2].type, JSON_BOOL);
+    cr_assert_eq(value->arr_val->elem[2].bool_val, true);
+    cr_assert_eq(value->arr_val->elem[3].type, JSON_BOOL);
+    cr_assert_eq(value->arr_val->elem[3].bool_val, false);
+    cr_assert_eq(value->arr_val->elem[4].type, JSON_BOOL);
+    cr_assert_eq(value->arr_val->elem[4].bool_val, true);
+    cr_assert_eq(value->arr_val->elem[5].type, JSON_BOOL);
+    cr_assert_eq(value->arr_val->elem[5].bool_val, false);
+    cr_assert_eq(value->arr_val->elem[6].type, JSON_BOOL);
+    cr_assert_eq(value->arr_val->elem[6].bool_val, true);
+    cr_assert_eq(value->arr_val->elem[7].type, JSON_BOOL);
+    cr_assert_eq(value->arr_val->elem[7].bool_val, false);
+    cr_assert_eq(value->arr_val->elem[8].type, JSON_BOOL);
+    cr_assert_eq(value->arr_val->elem[8].bool_val, true);
     jsn_free(value);
 }
 
@@ -141,9 +141,9 @@ Test(jsn_array_create_from_list, object)
     if (jsn_object_add_string(object3, "city", "London")) {
         cr_assert_fail("Failed to add string to object");
     }
-    json_object_t *obj_val1 = object1->object_value;
-    json_object_t *obj_val2 = object2->object_value;
-    json_object_t *obj_val3 = object3->object_value;
+    json_object_t *obj_val1 = object1->obj_val;
+    json_object_t *obj_val2 = object2->obj_val;
+    json_object_t *obj_val3 = object3->obj_val;
 
     cr_assert_not_null(obj_val1);
     cr_assert_not_null(obj_val2);
@@ -163,45 +163,45 @@ Test(jsn_array_create_from_list, object)
 
     cr_assert_not_null(value);
     cr_assert_eq(value->type, JSON_ARRAY);
-    cr_assert_not_null(value->array_value);
-    cr_assert_eq(value->array_value->size, 3);
-    cr_assert_not_null(value->array_value->elements);
+    cr_assert_not_null(value->arr_val);
+    cr_assert_eq(value->arr_val->size, 3);
+    cr_assert_not_null(value->arr_val->elem);
 
-    cr_assert_eq(value->array_value->elements[0].type, JSON_OBJECT);
-    cr_assert_eq(value->array_value->elements[0].object_value->size, 3);
-    cr_assert_str_eq(value->array_value->elements[0].object_value->keys[0], "name");
-    cr_assert_eq(value->array_value->elements[0].object_value->values[0].type, JSON_STRING);
-    cr_assert_str_eq(value->array_value->elements[0].object_value->values[0].string_value, "John");
-    cr_assert_str_eq(value->array_value->elements[0].object_value->keys[1], "age");
-    cr_assert_eq(value->array_value->elements[0].object_value->values[1].type, JSON_NUMBER);
-    cr_assert_eq(value->array_value->elements[0].object_value->values[1].number_value, 30);
-    cr_assert_str_eq(value->array_value->elements[0].object_value->keys[2], "city");
-    cr_assert_eq(value->array_value->elements[0].object_value->values[2].type, JSON_STRING);
-    cr_assert_str_eq(value->array_value->elements[0].object_value->values[2].string_value, "New York");
+    cr_assert_eq(value->arr_val->elem[0].type, JSON_OBJECT);
+    cr_assert_eq(value->arr_val->elem[0].obj_val->size, 3);
+    cr_assert_str_eq(value->arr_val->elem[0].obj_val->keys[0], "name");
+    cr_assert_eq(value->arr_val->elem[0].obj_val->values[0].type, JSON_STRING);
+    cr_assert_str_eq(value->arr_val->elem[0].obj_val->values[0].str_val, "John");
+    cr_assert_str_eq(value->arr_val->elem[0].obj_val->keys[1], "age");
+    cr_assert_eq(value->arr_val->elem[0].obj_val->values[1].type, JSON_NUMBER);
+    cr_assert_eq(value->arr_val->elem[0].obj_val->values[1].nbr_val, 30);
+    cr_assert_str_eq(value->arr_val->elem[0].obj_val->keys[2], "city");
+    cr_assert_eq(value->arr_val->elem[0].obj_val->values[2].type, JSON_STRING);
+    cr_assert_str_eq(value->arr_val->elem[0].obj_val->values[2].str_val, "New York");
 
-    cr_assert_eq(value->array_value->elements[1].type, JSON_OBJECT);
-    cr_assert_eq(value->array_value->elements[1].object_value->size, 3);
-    cr_assert_str_eq(value->array_value->elements[1].object_value->keys[0], "name");
-    cr_assert_eq(value->array_value->elements[1].object_value->values[0].type, JSON_STRING);
-    cr_assert_str_eq(value->array_value->elements[1].object_value->values[0].string_value, "Thomas");
-    cr_assert_str_eq(value->array_value->elements[1].object_value->keys[1], "age");
-    cr_assert_eq(value->array_value->elements[1].object_value->values[1].type, JSON_NUMBER);
-    cr_assert_eq(value->array_value->elements[1].object_value->values[1].number_value, 900);
-    cr_assert_str_eq(value->array_value->elements[1].object_value->keys[2], "city");
-    cr_assert_eq(value->array_value->elements[1].object_value->values[2].type, JSON_STRING);
-    cr_assert_str_eq(value->array_value->elements[1].object_value->values[2].string_value, "Paris");
+    cr_assert_eq(value->arr_val->elem[1].type, JSON_OBJECT);
+    cr_assert_eq(value->arr_val->elem[1].obj_val->size, 3);
+    cr_assert_str_eq(value->arr_val->elem[1].obj_val->keys[0], "name");
+    cr_assert_eq(value->arr_val->elem[1].obj_val->values[0].type, JSON_STRING);
+    cr_assert_str_eq(value->arr_val->elem[1].obj_val->values[0].str_val, "Thomas");
+    cr_assert_str_eq(value->arr_val->elem[1].obj_val->keys[1], "age");
+    cr_assert_eq(value->arr_val->elem[1].obj_val->values[1].type, JSON_NUMBER);
+    cr_assert_eq(value->arr_val->elem[1].obj_val->values[1].nbr_val, 900);
+    cr_assert_str_eq(value->arr_val->elem[1].obj_val->keys[2], "city");
+    cr_assert_eq(value->arr_val->elem[1].obj_val->values[2].type, JSON_STRING);
+    cr_assert_str_eq(value->arr_val->elem[1].obj_val->values[2].str_val, "Paris");
 
-    cr_assert_eq(value->array_value->elements[2].type, JSON_OBJECT);
-    cr_assert_eq(value->array_value->elements[2].object_value->size, 3);
-    cr_assert_str_eq(value->array_value->elements[2].object_value->keys[0], "name");
-    cr_assert_eq(value->array_value->elements[2].object_value->values[0].type, JSON_STRING);
-    cr_assert_str_eq(value->array_value->elements[2].object_value->values[0].string_value, "Bob");
-    cr_assert_str_eq(value->array_value->elements[2].object_value->keys[1], "age");
-    cr_assert_eq(value->array_value->elements[2].object_value->values[1].type, JSON_NUMBER);
-    cr_assert_eq(value->array_value->elements[2].object_value->values[1].number_value, 42);
-    cr_assert_str_eq(value->array_value->elements[2].object_value->keys[2], "city");
-    cr_assert_eq(value->array_value->elements[2].object_value->values[2].type, JSON_STRING);
-    cr_assert_str_eq(value->array_value->elements[2].object_value->values[2].string_value, "London");
+    cr_assert_eq(value->arr_val->elem[2].type, JSON_OBJECT);
+    cr_assert_eq(value->arr_val->elem[2].obj_val->size, 3);
+    cr_assert_str_eq(value->arr_val->elem[2].obj_val->keys[0], "name");
+    cr_assert_eq(value->arr_val->elem[2].obj_val->values[0].type, JSON_STRING);
+    cr_assert_str_eq(value->arr_val->elem[2].obj_val->values[0].str_val, "Bob");
+    cr_assert_str_eq(value->arr_val->elem[2].obj_val->keys[1], "age");
+    cr_assert_eq(value->arr_val->elem[2].obj_val->values[1].type, JSON_NUMBER);
+    cr_assert_eq(value->arr_val->elem[2].obj_val->values[1].nbr_val, 42);
+    cr_assert_str_eq(value->arr_val->elem[2].obj_val->keys[2], "city");
+    cr_assert_eq(value->arr_val->elem[2].obj_val->values[2].type, JSON_STRING);
+    cr_assert_str_eq(value->arr_val->elem[2].obj_val->values[2].str_val, "London");
 
     jsn_free(value);
 }

@@ -10,7 +10,7 @@
 #include "corejson.h"
 #include "corejson/internal.h"
 
-static parse_func_t parsefunc_table[] = {
+static const parse_func_t parsefunc_table[] = {
     [TOKEN_STRING] = jsn_tkn_parse_string,
     [TOKEN_NUMBER] = jsn_tkn_parse_number,
     [TOKEN_TRUE] = jsn_tkn_parse_true,

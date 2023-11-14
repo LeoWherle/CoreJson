@@ -39,7 +39,7 @@ void jsn_value_print(
     if (IS_JSON_VALUE(jsonValue->type)) {
         json_print_funcs[jsonValue->type](jsonValue, depth, format, fd);
     } else {
-        FLOG("Invalid json value type");
+        FLOG(stderr, "Invalid json value type");
     }
 }
 

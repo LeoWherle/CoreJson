@@ -12,12 +12,12 @@
 
 static json_error_t jsn_array_add_new(json_array_t *array)
 {
-    array->elements =
-        reallocarray(array->elements, sizeof(json_value_t), (array->size + 1));
-    if (array->elements == NULL) {
+    array->elem =
+        reallocarray(array->elem, sizeof(json_value_t), (array->size + 1));
+    if (array->elem == NULL) {
         return JSN_ERROR;
     }
-    memset(&array->elements[array->size], 0, sizeof(json_value_t));
+    memset(&array->elem[array->size], 0, sizeof(json_value_t));
     return JSN_SUCCESS;
 }
 
@@ -28,15 +28,15 @@ json_error_t jsn_array_add_number(json_value_t *value, double number)
     if (value == NULL || value->type != JSON_ARRAY) {
         return JSN_ERROR;
     }
-    array = value->array_value;
+    array = value->arr_val;
     if (array == NULL) {
         return JSN_ERROR;
     }
     if (jsn_array_add_new(array)) {
         return JSN_ERROR;
     }
-    array->elements[array->size].type = JSON_NUMBER;
-    array->elements[array->size].number_value = number;
+    array->elem[array->size].type = JSON_NUMBER;
+    array->elem[array->size].nbr_val = number;
     array->size++;
     return JSN_SUCCESS;
 }
@@ -48,15 +48,15 @@ json_error_t jsn_array_add_string(json_value_t *value, const char *string)
     if (value == NULL || value->type != JSON_ARRAY) {
         return JSN_ERROR;
     }
-    array = value->array_value;
+    array = value->arr_val;
     if (array == NULL) {
         return JSN_ERROR;
     }
     if (jsn_array_add_new(array)) {
         return JSN_ERROR;
     }
-    array->elements[array->size].type = JSON_STRING;
-    if (value_strdup(array->elements[array->size].string_value, string) != 0) {
+    array->elem[array->size].type = JSON_STRING;
+    if (value_strdup(array->elem[array->size].str_val, string) != 0) {
         return JSN_ERROR;
     }
     array->size++;
@@ -70,15 +70,15 @@ json_error_t jsn_array_add_bool(json_value_t *value, bool bool_value)
     if (value == NULL || value->type != JSON_ARRAY) {
         return JSN_ERROR;
     }
-    array = value->array_value;
+    array = value->arr_val;
     if (array == NULL) {
         return JSN_ERROR;
     }
     if (jsn_array_add_new(array)) {
         return JSN_ERROR;
     }
-    array->elements[array->size].type = JSON_BOOL;
-    array->elements[array->size].bool_value = bool_value;
+    array->elem[array->size].type = JSON_BOOL;
+    array->elem[array->size].bool_val = bool_value;
     array->size++;
     return JSN_SUCCESS;
 }
@@ -90,15 +90,15 @@ json_error_t jsn_array_add_object(json_value_t *value, json_object_t *object)
     if (value == NULL || value->type != JSON_ARRAY) {
         return JSN_ERROR;
     }
-    array = value->array_value;
+    array = value->arr_val;
     if (array == NULL) {
         return JSN_ERROR;
     }
     if (jsn_array_add_new(array) == JSN_ERROR) {
         return JSN_ERROR;
     }
-    array->elements[array->size].type = JSON_OBJECT;
-    array->elements[array->size].object_value = object;
+    array->elem[array->size].type = JSON_OBJECT;
+    array->elem[array->size].obj_val = object;
     array->size++;
     return JSN_SUCCESS;
 }
@@ -111,15 +111,15 @@ json_error_t jsn_array_add_array(
     if (value == NULL || value->type != JSON_ARRAY) {
         return JSN_ERROR;
     }
-    array = value->array_value;
+    array = value->arr_val;
     if (array == NULL) {
         return JSN_ERROR;
     }
     if (jsn_array_add_new(array) == JSN_ERROR) {
         return JSN_ERROR;
     }
-    array->elements[array->size].type = JSON_ARRAY;
-    array->elements[array->size].array_value = array_value;
+    array->elem[array->size].type = JSON_ARRAY;
+    array->elem[array->size].arr_val = array_value;
     array->size++;
     return JSN_SUCCESS;
 }

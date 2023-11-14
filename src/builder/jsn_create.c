@@ -16,7 +16,7 @@ json_value_t *jsn_bool_create(bool bool_value)
     if (value == NULL)
         return NULL;
     value->type = JSON_BOOL;
-    value->bool_value = bool_value;
+    value->bool_val = bool_value;
     return value;
 }
 
@@ -28,7 +28,7 @@ json_value_t *jsn_number_create(double number_value)
     if (value == NULL)
         return NULL;
     value->type = JSON_NUMBER;
-    value->number_value = number_value;
+    value->nbr_val = number_value;
     return value;
 }
 
@@ -42,7 +42,7 @@ json_value_t *jsn_string_create(const char *string)
     if (value == NULL)
         return NULL;
     value->type = JSON_STRING;
-    if (value_strdup(value->string_value, string)) {
+    if (value_strdup(value->str_val, string)) {
         free(value);
         return NULL;
     }
@@ -57,13 +57,13 @@ json_value_t *jsn_array_create(void)
     if (value == NULL)
         return NULL;
     value->type = JSON_ARRAY;
-    value->array_value = malloc(sizeof(json_array_t));
-    if (value->array_value == NULL) {
+    value->arr_val = malloc(sizeof(json_array_t));
+    if (value->arr_val == NULL) {
         free(value);
         return NULL;
     }
-    value->array_value->size = 0;
-    value->array_value->elements = NULL;
+    value->arr_val->size = 0;
+    value->arr_val->elem = NULL;
     return value;
 }
 
@@ -75,13 +75,13 @@ json_value_t *jsn_object_create(void)
     if (value == NULL)
         return NULL;
     value->type = JSON_OBJECT;
-    value->object_value = malloc(sizeof(json_object_t));
-    if (value->object_value == NULL) {
+    value->obj_val = malloc(sizeof(json_object_t));
+    if (value->obj_val == NULL) {
         free(value);
         return NULL;
     }
-    value->object_value->size = 0;
-    value->object_value->values = NULL;
-    value->object_value->keys = NULL;
+    value->obj_val->size = 0;
+    value->obj_val->values = NULL;
+    value->obj_val->keys = NULL;
     return value;
 }

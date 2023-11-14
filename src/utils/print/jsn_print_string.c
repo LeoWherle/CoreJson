@@ -11,5 +11,5 @@
 void jsn_string_print(
     json_value_t *value, UNUSED uint32_t depth, UNUSED uint32_t format, int fd)
 {
-    dprintf(fd, "\"%s\"", value->string_value);
+    dprintf(fd, "\"%s\"", value->str_val);
 }

@@ -13,7 +13,7 @@
 ## Requirements
 
 - C99 compiler
-- from libc [malloc, reallocarray, free, memcpy, memset, strlen, dprintf, strncmp *for debugging = fprintf*]
+- from libc [malloc, reallocarray, calloc, free, memcpy, memset, strlen, dprintf, strncmp *for debugging = fprintf*]
 
 ## Table of Contents
 

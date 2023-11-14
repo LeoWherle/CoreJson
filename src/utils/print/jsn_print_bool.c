@@ -11,5 +11,5 @@
 void jsn_bool_print(
     json_value_t *value, UNUSED uint32_t depth, UNUSED uint32_t format, int fd)
 {
-    dprintf(fd, "%s", value->bool_value ? TRUE_STR : FALSE_STR);
+    dprintf(fd, "%s", value->bool_val ? TRUE_STR : FALSE_STR);
 }

@@ -176,7 +176,7 @@ Test(jsn_print, test_big_number, .init = redirect_all_output)
         perror("Failed to parse JSON\n");
     }
     cr_assert_eq(value->type, JSON_NUMBER);
-    cr_assert_eq(value->number_value, 35678901234567600.0);
+    cr_assert_eq(value->nbr_val, 35678901234567600.0);
     jsn_print(value, false, STDOUT_FILENO);
     jsn_free(value);
     cr_assert_stdout_eq_str("35678901234567600");

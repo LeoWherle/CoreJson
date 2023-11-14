@@ -69,13 +69,13 @@ json_error_t jsn_object_add_data(
 
 json_error_t jsn_array_add_data(json_array_t *array, json_value_t *element)
 {
-    array->elements =
-        reallocarray(array->elements, (array->size + 1), sizeof(json_value_t));
-    if (array->elements == NULL) {
+    array->elem =
+        reallocarray(array->elem, (array->size + 1), sizeof(json_value_t));
+    if (array->elem == NULL) {
         DERR("reallocarray");
         return 1;
     }
-    memcpy(&array->elements[array->size], element, sizeof(json_value_t));
+    memcpy(&array->elem[array->size], element, sizeof(json_value_t));
     array->size++;
     return 0;
 }

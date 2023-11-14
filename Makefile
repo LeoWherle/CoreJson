@@ -26,10 +26,12 @@ NC = \033[0m
 SRC = 	src/builder/jsn_builder.c \
 		src/builder/jsn_free.c \
 		src/builder/jsn_create.c \
+		src/builder/jsn_dup.c \
 		src/builder/jsn_array/jsn_array_add_value.c \
 		src/builder/jsn_array/jsn_array_add_null.c \
 		src/builder/jsn_array/jsn_array_from_list.c \
 		src/builder/jsn_object/jsn_object_add_value.c \
+		src/builder/jsn_object/jsn_object_add_null.c \
 		src/lexer/jsn_lexer_helper.c \
 		src/lexer/jsn_lexer_match.c \
 		src/lexer/jsn_lexer.c \
@@ -68,6 +70,7 @@ SRC_TEST = 	tests/t_lexer.c \
 			tests/t_json_print.c \
 			tests/t_json_add_value.c \
 			tests/t_json_create.c \
+			tests/t_json_dup.c \
 			tests/t_json_create_from_list.c \
 			$(SRC)
 
@@ -199,6 +202,10 @@ $(TEST_BIN): $(SRC_TEST)
 tests_run: $(TEST_BIN)
 tests_run:
 	@-./$(TEST_BIN)
+
+coverage: tests_run
+	@echo "Generating coverage report..."
+	@gcovr -r . --html --html-details -o coverage/index.html --exclude tests
 
 $(BIN): $(OBJS)
 	@$(LD) $(LDFLAGS) $(LDLIBS) -o $@ $^

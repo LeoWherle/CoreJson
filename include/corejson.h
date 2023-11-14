@@ -42,8 +42,6 @@ typedef struct json_array_s json_array_t;
 typedef enum {
     JSON_STRING,
     JSON_NUMBER,
-    JSON_TRUE,
-    JSON_FALSE,
     JSON_BOOL,
     JSON_NULL,
     JSON_OBJECT,
@@ -57,11 +55,11 @@ typedef enum {
 struct json_value_s {
     json_value_type type;
     union {
-        char string_value[VALUE_LEN_MAX + 1];
-        double number_value;
-        json_object_t *object_value;
-        json_array_t *array_value;
-        bool bool_value;
+        char str_val[VALUE_LEN_MAX + 1];
+        double nbr_val;
+        json_object_t *obj_val;
+        json_array_t *arr_val;
+        bool bool_val;
     };
 };
 

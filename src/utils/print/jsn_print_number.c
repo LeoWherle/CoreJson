@@ -11,14 +11,14 @@
 void jsn_number_print(json_value_t *jsonValue, UNUSED uint32_t depth,
     UNUSED uint32_t format, int fd)
 {
-    if (jsonValue->number_value == (int) jsonValue->number_value) {
-        dprintf(fd, "%d", (int) jsonValue->number_value);
+    if (jsonValue->nbr_val == (int) jsonValue->nbr_val) {
+        dprintf(fd, "%d", (int) jsonValue->nbr_val);
         return;
-    } else if (jsonValue->number_value == (long) jsonValue->number_value) {
-        dprintf(fd, "%ld", (long) jsonValue->number_value);
+    } else if (jsonValue->nbr_val == (long) jsonValue->nbr_val) {
+        dprintf(fd, "%ld", (long) jsonValue->nbr_val);
         return;
     } else {
-        dprintf(fd, "%f", jsonValue->number_value);
+        dprintf(fd, "%f", jsonValue->nbr_val);
         return;
     }
 }
