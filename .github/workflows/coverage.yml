@@ -1,0 +1,38 @@
+name: Generate Coverage Report
+
+on:
+  push:
+    branches:
+      - main # Replace with your main branch name
+  pull_request:
+    branches:
+      - main # Replace with your main branch name
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up GCC and gcovr
+        run: sudo apt-get install -y gcovr
+
+      - name: Build and Run Tests
+        run: |
+          make tests_run
+
+      - name: Generate Coverage Report
+        run: gcovr -r . --html --html-details -o coverage/index.html
+
+      #   - name: Change branch to coverage-site
+      #     run: |
+      #       git checkout coverage-site
+      #       git pull origin coverage-site
+
+      - name: Publish Coverage Report
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./coverage
