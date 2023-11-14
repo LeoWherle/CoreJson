@@ -1,5 +1,4 @@
 # JSON Parser & Builder Library in C
-[![codecov](https://codecov.io/gh/LeoWherle/CoreJson/graph/badge.svg?token=N2CGGRULNI)](https://codecov.io/gh/LeoWherle/CoreJson)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## Features
