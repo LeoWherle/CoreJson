@@ -23,13 +23,11 @@ jobs:
         run: |
           make tests_run
 
+      - name: Create index.html at coverage/
+        run: mkdir coverage && touch coverage/index.html
+
       - name: Generate Coverage Report
         run: gcovr -r . --html --html-details -o coverage/index.html
-
-      #   - name: Change branch to coverage-site
-      #     run: |
-      #       git checkout coverage-site
-      #       git pull origin coverage-site
 
       - name: Publish Coverage Report
         uses: peaceiris/actions-gh-pages@v3
