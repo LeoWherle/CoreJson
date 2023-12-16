@@ -10,8 +10,7 @@
 static const char *json_value_type_string[] = {
     [JSON_STRING] = "JSON_STRING",
     [JSON_NUMBER] = "JSON_NUMBER",
-    [JSON_TRUE] = "JSON_TRUE",
-    [JSON_FALSE] = "JSON_FALSE",
+    [JSON_BOOL] = "JSON_BOOL",
     [JSON_BOOL] = "JSON_BOOL",
     [JSON_NULL] = "JSON_NULL",
     [JSON_OBJECT] = "JSON_OBJECT",

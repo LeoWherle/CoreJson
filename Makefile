@@ -53,6 +53,7 @@ SRC = 	src/builder/jsn_builder.c \
 		src/parser/jsn_parse/jsn_parse_string.c \
 		src/parser/jsn_parse/jsn_parse_bool.c \
 		src/parser/jsn_parse/jsn_parse_null.c \
+		src/utils/helper/jsn_parser_helper.c \
 		src/utils/print/jsn_print.c \
 		src/utils/print/jsn_print_array.c \
 		src/utils/print/jsn_print_object.c \

@@ -66,7 +66,9 @@ json_error_t jsn_array_dup(json_value_t *dst, const json_value_t *src)
     }
     for (uint32_t i = 0; i < src->arr_val->size; i++) {
         // TODO: fix this
-        // FLOG(stderr, "Dup element [%d] = %d\n", i, src->arr_val->elem[i].nbr_val);
+        FLOG(stderr, "Dup element %s[%d] = %f\n",
+            json_value_type_get_string(src->arr_val->elem[i].type), i,
+            src->arr_val->elem[i].nbr_val);
         if (!jsn_dup_val(&dst->arr_val->elem[i], &src->arr_val->elem[i])) {
             FLOG(stderr, "Failed to duplicate array element\n");
             return JSN_ERROR;

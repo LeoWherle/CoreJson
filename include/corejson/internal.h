@@ -61,4 +61,6 @@ void jsn_array_free(json_array_t *array);
 /** HELPER **/
 json_error_t value_strdup(char *dest, const char *src);
 char *key_strdup(const char *s);
+const char *json_value_type_get_string(token_type_e type);
+
 #endif /* !COREJSON_INTERNAL_H_ */
